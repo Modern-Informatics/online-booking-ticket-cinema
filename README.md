@@ -1,7 +1,7 @@
-## online-booking-ticket-cinema
-# Group: M34112
-# Member: 
-*Tran Hoang Nam* <br />
-*Nguyen Tuan Kiet* <br />
-*Dang Hoang Duc* <br />
-*Le Ba Kien* <br />
+# online-booking-ticket-cinema
+## Group: M34112
+## Member: 
+*Tran Hoang Nam* backend <br /> 
+*Nguyen Tuan Kiet* Complete the project <br /> 
+*Dang Hoang Duc* frontend <br />
+*Le Ba Kien* frontend <br />
