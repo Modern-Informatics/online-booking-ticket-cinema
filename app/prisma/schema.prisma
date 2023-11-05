@@ -10,3 +10,150 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  CINEMA
+  USER
+}
+
+enum ShowSeatStatus{
+  AVAILABLE
+  RESERVED
+  BOOKED
+}
+
+enum BookingStatus{
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum PaymentStatus{
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model User {
+  user_id Int @id @default(autoincrement())
+  email String @unique
+  user_name String
+  password_hash String
+  role Role @default(USER)
+  bookings Booking[]
+  notifications Notification[]
+}
+
+model City {
+  city_id Int @id @default(autoincrement())
+  name String
+  cinemas Cinema[]
+}
+
+model Cinema{
+  cinema_id Int @id @default(autoincrement())
+  name String
+  city City @relation(fields: [cityId], references: [city_id])
+  cityId Int
+  email String?
+  phone_number String?
+  screens Screen[]
+  promotions Promotion[]
+}
+
+model Screen{
+  screen_id Int @id @default(autoincrement())
+  cinema Cinema @relation(fields: [cinemaId], references: [cinema_id])
+  cinemaId Int
+  shows Show[]
+  seats Seat[]
+}
+
+model Movie{
+  movie_id Int @id @default(autoincrement())
+  title String
+  director String
+  main_actors String
+  genre String
+  description String?
+  shows Show[]
+}
+
+model Show{
+  show_id Int @id @default(autoincrement())
+  movie Movie @relation( fields: [movieId], references: [movie_id])
+  movieId Int
+  screens Screen @relation(fields: [screenId], references: [screen_id])
+  screenId Int
+  ShowSeat ShowSeat[]
+}
+
+model Seat{
+  seat_id Int @id @default(autoincrement())
+  screen Screen @relation(fields: [screenId], references: [screen_id])
+  screenId Int
+  row String
+  seat_number Int
+  show_seats ShowSeat[]
+}
+
+model ShowSeat{
+  show_seat_id Int @id @default(autoincrement())
+  show Show @relation(fields: [showId], references: [show_id])
+  showId Int
+  seat Seat @relation(fields: [seatId], references: [seat_id])
+  seatId Int
+  price Decimal
+  status ShowSeatStatus @default(AVAILABLE)
+  bookingDetail BookingDetail[]
+}
+
+model Booking{
+  booking_id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [user_id])
+  userId Int
+  status BookingStatus @default(PENDING)
+  bookingDetail BookingDetail[]
+  payments Payment[]
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt()
+}
+
+model BookingDetail{
+  booking_detail_id Int @id @default(autoincrement())
+  booking Booking @relation(fields: [bookingId], references: [booking_id])
+  bookingId Int
+  showSeat ShowSeat @relation(fields: [showSeatId], references: [show_seat_id])
+  showSeatId Int
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt()
+}
+
+model Payment{
+  payment_id Int @id @default(autoincrement())
+  amount Decimal
+  paymentStatus PaymentStatus @default(PENDING)
+  booking Booking @relation(fields: [bookingId], references: [booking_id])
+  bookingId Int
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt()
+}
+
+model Promotion{
+  promotion_id Int @id @default(autoincrement())
+  cinema Cinema @relation(fields: [cinemaId], references: [cinema_id])
+  cinemaId Int
+  promo_code String
+  discount_amount Decimal
+  startAt DateTime @default(now())
+  expirationAt DateTime @updatedAt()
+}
+
+model Notification{
+  notification_id Int @id @default(autoincrement())
+  message String
+  user User @relation(fields: [userId], references: [user_id])
+  userId Int
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt()
+}
