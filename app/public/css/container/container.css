@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.curr_list li{
+    list-style: none;
+}
+
+.box_film .img{
+    width: 10%;;
+    
+}
