@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/fonts/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="./css/header/header.css">
-    <script type="text/javascript" src="./js/header.js"></script>
+    
 </head>
 <body>
     <div class="header" >
@@ -62,22 +62,56 @@
             <script>
                 var imgFeature = document.querySelector('.img-feature')
                 var listImg = document.querySelectorAll('.list-image img')
-
-                var prevBtn = document.querySelector('.perv')
+                var prevBtn = document.querySelector('.prev')
                 var nextBtn = document.querySelector('.next')
 
-                listImg.forEach(imgElement => {
+                var currentIndex = 0;
+
+                function updateImageByIndex(index){
+                    document.querySelectorAll('.list-image div').forEach(item=>{
+                        item.classList.remove('active')
+                    })
+
+                    currentIndex = index
+                    imgFeature.src = listImg[index].getAttribute('src')
+                    listImg[index].parentElement.classList.add('active')
+                };
+
+
+
+
+                listImg.forEach((imgElement, index)=>{
                     imgElement.addEventListener('click', e=>{
-                        imgFeature.src = e.target.getAttribute('src')
-                })   
-            });
+                        updateImageByIndex(index)
+                    })  
+                })
+
+                prevBtn.addEventListener('click', e=>{
+                    if(currentIndex == 0){
+                        currentIndex = listImg.length - 1
+                    }else{
+                        currentIndex--
+                    } 
+                })
+
+
+                nextBtn.addEventListener('click', e=>{
+                    if(currentIndex == listImg.length - 1){
+                        currentIndex = 0
+                    }else{
+                        currentIndex++
+                    } 
+                })
+
+                updateImageByIndex(0)
+
             </script>
 
         </div>
 
     </div>
 
-    <div class="container">
+    <!-- <div class="container">
         <div class="main">
                 <li class=""></li>
                 <li class=""></li>
@@ -92,7 +126,7 @@
 
     <div class="footer">
 
-    </div>
+    </div> -->
 
 </body>
 </html>
