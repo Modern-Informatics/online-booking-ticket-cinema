@@ -37,7 +37,7 @@ enum PaymentStatus{
 model User {
   user_id Int @id @default(autoincrement())
   email String @unique
-  user_name String
+  name String
   password_hash String
   role Role @default(USER)
   bookings Booking[]
@@ -75,6 +75,7 @@ model Movie{
   director String
   main_actors String
   genre String
+  url_image String?
   description String?
   shows Show[]
 }
@@ -83,7 +84,7 @@ model Show{
   show_id Int @id @default(autoincrement())
   movie Movie @relation( fields: [movieId], references: [movie_id])
   movieId Int
-  screens Screen @relation(fields: [screenId], references: [screen_id])
+  screen Screen @relation(fields: [screenId], references: [screen_id])
   screenId Int
   ShowSeat ShowSeat[]
 }
@@ -146,7 +147,7 @@ model Promotion{
   promo_code String
   discount_amount Decimal
   startAt DateTime @default(now())
-  expirationAt DateTime @updatedAt()
+  expirationAt DateTime
 }
 
 model Notification{
