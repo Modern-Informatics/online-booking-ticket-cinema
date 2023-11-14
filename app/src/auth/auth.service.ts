@@ -1,35 +1,61 @@
-import { Injectable } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
-import { User } from '@prisma/client';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { UsersService } from 'src/users/users.service';
+import { LoginDto } from './dto/login-user.dto';
+import { RegisterDto } from './dto/register-user.dto';
 import { PasswordService } from './password.service';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private readonly prismaService: PrismaService,
+    private jwtService: JwtService,
+    private readonly usersService: UsersService,
     private passwordService: PasswordService,
   ) {}
 
-  async signup(createUserDto: CreateUserDto): Promise<User> {
-    const { email, name, password, role } = createUserDto;
-    // const password_hash = this.passwordService.hashPassword(password);
-    const password_hash = await this.passwordService.hashPassword(password);
-    return this.userService.create({
-      email,
-      name,
-      password_hash,
-      role,
+  async register(registerDto: RegisterDto): Promise<any> {
+    const user = await this.usersService.create({
+      email: registerDto.email,
+      name: registerDto.name,
+      password_hash: await this.passwordService.hash(registerDto.password),
+      role: registerDto.role,
     });
+
+    return {
+      token: this.jwtService.sign({
+        email: user.email,
+        role: user.role,
+      }),
+    };
   }
 
-  // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // async signin(dto: CreateAuthDto, req: Request, res: Response) {
-  //   throw new NotImplementedException();
-  // }
+  async login(loginDto: LoginDto): Promise<any> {
+    const { email, password } = loginDto;
 
-  // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // async signout(req: Request, res: Response) {
-  //   throw new NotImplementedException();
-  // }
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new NotFoundException('user not found!');
+    }
+
+    const validatePassword = await this.passwordService.compare(
+      password,
+      user.password_hash,
+    );
+
+    if (!validatePassword) {
+      throw new NotFoundException('Invalid password');
+    }
+
+    return {
+      token: this.jwtService.sign({
+        email: user.email,
+        role: user.role,
+      }),
+    };
+  }
 }

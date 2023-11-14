@@ -14,7 +14,7 @@ CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'COMPLETED', 'FAILED');
 CREATE TABLE "User" (
     "user_id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "user_name" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "password_hash" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'USER',
 
@@ -55,6 +55,7 @@ CREATE TABLE "Movie" (
     "director" TEXT NOT NULL,
     "main_actors" TEXT NOT NULL,
     "genre" TEXT NOT NULL,
+    "url_image" TEXT,
     "description" TEXT,
 
     CONSTRAINT "Movie_pkey" PRIMARY KEY ("movie_id")
