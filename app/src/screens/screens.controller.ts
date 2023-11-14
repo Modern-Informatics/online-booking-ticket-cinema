@@ -6,16 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ScreensService } from './screens.service';
 import { CreateScreenDto } from './dto/create-screen.dto';
 import { UpdateScreenDto } from './dto/update-screen.dto';
-import { Screen } from '@prisma/client';
+import { Role, Screen } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @Controller('screens')
 export class ScreensController {
   constructor(private readonly screensService: ScreensService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Post()
   async create(@Body() createScreenDto: CreateScreenDto): Promise<Screen> {
     const { cinema_id } = createScreenDto;
@@ -26,16 +32,20 @@ export class ScreensController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<Screen[]> {
     return this.screensService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('screen/:id')
   async findOne(@Param('id') id: string): Promise<Screen | null> {
     return this.screensService.screen({ screen_id: Number(id) });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Patch('screen/:id')
   async update(
     @Param('id') id: string,
@@ -52,6 +62,8 @@ export class ScreensController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Delete('screen/:id')
   async remove(@Param('id') id: string): Promise<Screen> {
     return this.screensService.delete({ screen_id: Number(id) });

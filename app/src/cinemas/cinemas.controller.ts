@@ -6,16 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CinemasService } from './cinemas.service';
 import { CreateCinemaDto } from './dto/create-cinema.dto';
 import { UpdateCinemaDto } from './dto/update-cinema.dto';
-import { Cinema } from '@prisma/client';
+import { Cinema, Role } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @Controller('cinemas')
 export class CinemasController {
   constructor(private readonly cinemasService: CinemasService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Post()
   async create(@Body() createCinemaDto: CreateCinemaDto): Promise<Cinema> {
     const { name, city_id, email, phone_number } = createCinemaDto;
@@ -39,6 +45,8 @@ export class CinemasController {
     return this.cinemasService.cinema({ cinema_id: Number(id) });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Patch('cinema/:id')
   async update(
     @Param('id') id: string,
@@ -50,6 +58,9 @@ export class CinemasController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
+  @UseGuards(JwtAuthGuard)
   @Delete('cinema/:id')
   async remove(@Param('id') id: string): Promise<Cinema> {
     return this.cinemasService.delete({ cinema_id: Number(id) });

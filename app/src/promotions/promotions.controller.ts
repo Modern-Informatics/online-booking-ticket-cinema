@@ -6,16 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PromotionsService } from './promotions.service';
 import { CreatePromotionDto } from './dto/create-promotion.dto';
 import { UpdatePromotionDto } from './dto/update-promotion.dto';
-import { Promotion } from '@prisma/client';
+import { Promotion, Role } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @Controller('promotions')
 export class PromotionsController {
   constructor(private readonly promotionsService: PromotionsService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Post()
   async create(
     @Body() createPromotionDto: CreatePromotionDto,
@@ -33,16 +39,20 @@ export class PromotionsController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<Promotion[]> {
     return this.promotionsService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('promotion/:id')
   async findOne(@Param('id') id: string): Promise<Promotion> {
     return this.promotionsService.promotion({ promotion_id: Number(id) });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Patch('promotion/:id')
   async update(
     @Param('id') id: string,
@@ -64,6 +74,8 @@ export class PromotionsController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Delete('promotion/:id')
   async delete(@Param('id') id: string): Promise<Promotion> {
     return this.promotionsService.delete({ promotion_id: Number(id) });

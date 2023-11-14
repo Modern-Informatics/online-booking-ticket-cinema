@@ -6,12 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ShowSeatsService } from './show-seats.service';
 import { CreateShowSeatDto } from './dto/create-show-seat.dto';
 import { UpdateShowSeatDto } from './dto/update-show-seat.dto';
-import { ShowSeat } from '@prisma/client';
+import { Role, ShowSeat } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.ADMIN, Role.CINEMA)
 @Controller('show-seats')
 export class ShowSeatsController {
   constructor(private readonly showSeatsService: ShowSeatsService) {}
@@ -41,6 +47,8 @@ export class ShowSeatsController {
     return this.showSeatsService.showSeat({ show_seat_id: Number(id) });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Patch('show-seat/:id')
   async update(
     @Param('id') id: string,
@@ -62,6 +70,8 @@ export class ShowSeatsController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Delete('show-seat/:id')
   async delete(@Param('id') id: string): Promise<ShowSeat | null> {
     return this.showSeatsService.delete({ show_seat_id: Number(id) });

@@ -6,16 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { SeatsService } from './seats.service';
 import { CreateSeatDto } from './dto/create-seat.dto';
 import { UpdateSeatDto } from './dto/update-seat.dto';
-import { Seat } from '@prisma/client';
+import { Role, Seat } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @Controller('seats')
 export class SeatsController {
   constructor(private readonly seatsService: SeatsService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Post()
   async create(@Body() createSeatDto: CreateSeatDto): Promise<Seat> {
     const { screenId, row, seat_number } = createSeatDto;
@@ -38,6 +44,8 @@ export class SeatsController {
     return this.seatsService.seat({ seat_id: Number(id) });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Patch('seat/:id')
   async update(
     @Param('id') id: string,
@@ -56,6 +64,8 @@ export class SeatsController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Delete('seat/:id')
   async delete(@Param('id') id: string): Promise<Seat> {
     return this.seatsService.delete({ seat_id: Number(id) });

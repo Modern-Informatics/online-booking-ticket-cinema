@@ -10,18 +10,21 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get()
   @Roles(Role.ADMIN)
+  @Get()
   async findAll() {
     return this.usersService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Get('user/:id')
   async findOne(@Param('id') id: string): Promise<User | null> {
     return this.usersService.user({ user_id: Number(id) });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @UseGuards(JwtAuthGuard)
   @Delete('user/:id')
   async delete(@Param('id') id: string) {

@@ -6,16 +6,21 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { BookingDetailsService } from './booking-details.service';
 import { CreateBookingDetailDto } from './dto/create-booking-detail.dto';
 import { UpdateBookingDetailDto } from './dto/update-booking-detail.dto';
-import { BookingDetail } from '@prisma/client';
+import { BookingDetail, Role } from '@prisma/client';
+import { Roles } from 'src/auth/roles.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Controller('booking-details')
 export class BookingDetailsController {
   constructor(private readonly bookingDetailsService: BookingDetailsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(
     @Body() createBookingDetailDto: CreateBookingDetailDto,
@@ -31,11 +36,14 @@ export class BookingDetailsController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Get()
   async findAll(): Promise<BookingDetail[]> {
     return this.bookingDetailsService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('booking-detail/:id')
   async findOne(@Param('id') id: string): Promise<BookingDetail> {
     return this.bookingDetailsService.bookingDetail({
@@ -43,6 +51,7 @@ export class BookingDetailsController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('booking-detail/:id')
   async update(
     @Param('id') id: string,
@@ -62,6 +71,7 @@ export class BookingDetailsController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('booking-detail/:id')
   async remove(@Param('id') id: string) {
     return this.bookingDetailsService.delete({ booking_detail_id: Number(id) });
