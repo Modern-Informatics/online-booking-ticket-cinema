@@ -14,7 +14,6 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('pug');
 
-  
   await app.listen(env.PORT);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
