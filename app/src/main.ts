@@ -10,7 +10,6 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
 
   await app.listen(env.PORT);
   console.log(`Application is running on: ${await app.getUrl()}`);
