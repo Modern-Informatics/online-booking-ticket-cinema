@@ -12,6 +12,13 @@ export class SeatsService {
     });
   }
 
+  async createMany(data: Prisma.SeatCreateManyInput) {
+    return await this.prisma.seat.createMany({
+      data: data,
+      skipDuplicates: true,
+    });
+  }
+
   async seat(
     seatWhereUniqueInput: Prisma.SeatWhereUniqueInput,
   ): Promise<Seat | null> {

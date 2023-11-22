@@ -34,6 +34,13 @@ export class SeatsController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
+  @Post('many')
+  async createMany(@Body() seats: CreateSeatDto) {
+    return this.seatsService.createMany(seats);
+  }
+
   @Get()
   async findAll() {
     return this.seatsService.findAll();
