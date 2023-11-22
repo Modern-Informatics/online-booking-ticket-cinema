@@ -7,6 +7,7 @@ import {
   Delete,
   Patch,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { CitiesService } from './cities.service';
 import { CreateCityDto } from './dto/create-city.dto';
@@ -35,6 +36,17 @@ export class CitiesController {
   @Get('city/:id')
   async findOne(@Param('id') id: string): Promise<City> {
     return this.citiesService.city({ city_id: Number(id) });
+  }
+
+  @Get('cities')
+  async findByName(@Query('name') name: string): Promise<City[]> {
+    return this.citiesService.cities({
+      where: {
+        name: {
+          contains: name,
+        },
+      },
+    });
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

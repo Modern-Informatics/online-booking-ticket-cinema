@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { CinemasService } from './cinemas.service';
 import { CreateCinemaDto } from './dto/create-cinema.dto';
@@ -43,6 +44,17 @@ export class CinemasController {
   @Get('cinema/:id')
   async findOne(@Param('id') id: string): Promise<Cinema> {
     return this.cinemasService.cinema({ cinema_id: Number(id) });
+  }
+
+  @Get('cinemas')
+  async findByName(@Query('name') name: string): Promise<Cinema[]> {
+    return this.cinemasService.cinemas({
+      where: {
+        name: {
+          contains: name,
+        },
+      },
+    });
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

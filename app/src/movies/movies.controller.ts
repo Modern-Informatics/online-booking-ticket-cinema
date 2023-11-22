@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
@@ -35,6 +36,17 @@ export class MoviesController {
   @Get('movie/:id')
   async findOne(@Param('id') id: string) {
     return this.moviesService.movie({ movie_id: Number(id) });
+  }
+
+  @Get('movies')
+  async findByTitle(@Query('title') title: string): Promise<Movie[]> {
+    return this.moviesService.movies({
+      where: {
+        title: {
+          contains: title,
+        },
+      },
+    });
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
