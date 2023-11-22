@@ -53,7 +53,7 @@ model City {
 model Cinema{
   cinema_id Int @id @default(autoincrement())
   name String
-  city City @relation(fields: [cityId], references: [city_id])
+  city City @relation(fields: [cityId], references: [city_id], onDelete: Cascade)
   cityId Int
   email String?
   phone_number String?
@@ -63,7 +63,7 @@ model Cinema{
 
 model Screen{
   screen_id Int @id @default(autoincrement())
-  cinema Cinema @relation(fields: [cinemaId], references: [cinema_id])
+  cinema Cinema @relation(fields: [cinemaId], references: [cinema_id], onDelete: Cascade)
   cinemaId Int
   shows Show[]
   seats Seat[]
@@ -82,16 +82,16 @@ model Movie{
 
 model Show{
   show_id Int @id @default(autoincrement())
-  movie Movie @relation( fields: [movieId], references: [movie_id])
+  movie Movie @relation( fields: [movieId], references: [movie_id], onDelete: Cascade)
   movieId Int
-  screen Screen @relation(fields: [screenId], references: [screen_id])
+  screen Screen @relation(fields: [screenId], references: [screen_id], onDelete: Cascade)
   screenId Int
   ShowSeat ShowSeat[]
 }
 
 model Seat{
   seat_id Int @id @default(autoincrement())
-  screen Screen @relation(fields: [screenId], references: [screen_id])
+  screen Screen @relation(fields: [screenId], references: [screen_id], onDelete: Cascade)
   screenId Int
   row String
   seat_number Int
@@ -100,9 +100,9 @@ model Seat{
 
 model ShowSeat{
   show_seat_id Int @id @default(autoincrement())
-  show Show @relation(fields: [showId], references: [show_id])
+  show Show @relation(fields: [showId], references: [show_id], onDelete: Cascade)
   showId Int
-  seat Seat @relation(fields: [seatId], references: [seat_id])
+  seat Seat @relation(fields: [seatId], references: [seat_id], onDelete: Cascade)
   seatId Int
   price Decimal
   status ShowSeatStatus @default(AVAILABLE)
@@ -111,7 +111,7 @@ model ShowSeat{
 
 model Booking{
   booking_id Int @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [user_id])
+  user User @relation(fields: [userId], references: [user_id], onDelete: Cascade)
   userId Int
   status BookingStatus @default(PENDING)
   bookingDetail BookingDetail[]
@@ -122,9 +122,9 @@ model Booking{
 
 model BookingDetail{
   booking_detail_id Int @id @default(autoincrement())
-  booking Booking @relation(fields: [bookingId], references: [booking_id])
+  booking Booking @relation(fields: [bookingId], references: [booking_id], onDelete: Cascade)
   bookingId Int
-  showSeat ShowSeat @relation(fields: [showSeatId], references: [show_seat_id])
+  showSeat ShowSeat @relation(fields: [showSeatId], references: [show_seat_id], onDelete: Cascade)
   showSeatId Int
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt()
@@ -134,7 +134,7 @@ model Payment{
   payment_id Int @id @default(autoincrement())
   amount Decimal
   paymentStatus PaymentStatus @default(PENDING)
-  booking Booking @relation(fields: [bookingId], references: [booking_id])
+  booking Booking @relation(fields: [bookingId], references: [booking_id], onDelete: Cascade)
   bookingId Int
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt()
@@ -142,7 +142,7 @@ model Payment{
 
 model Promotion{
   promotion_id Int @id @default(autoincrement())
-  cinema Cinema @relation(fields: [cinemaId], references: [cinema_id])
+  cinema Cinema @relation(fields: [cinemaId], references: [cinema_id], onDelete: Cascade)
   cinemaId Int
   promo_code String
   discount_amount Decimal
@@ -153,7 +153,7 @@ model Promotion{
 model Notification{
   notification_id Int @id @default(autoincrement())
   message String
-  user User @relation(fields: [userId], references: [user_id])
+  user User @relation(fields: [userId], references: [user_id], onDelete: Cascade)
   userId Int
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt()
