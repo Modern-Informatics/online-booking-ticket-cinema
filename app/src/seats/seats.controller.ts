@@ -46,6 +46,17 @@ export class SeatsController {
     return this.seatsService.findAll();
   }
 
+  @Get('seatsbyscreenid/:screenId')
+  async findManyByScreenId(
+    @Param('screenId') screenId: string,
+  ): Promise<Seat[]> {
+    return this.seatsService.seats({
+      where: {
+        screenId: Number(screenId),
+      },
+    });
+  }
+
   @Get('seat/:id')
   async findOne(@Param('id') id: string): Promise<Seat> {
     return this.seatsService.seat({ seat_id: Number(id) });

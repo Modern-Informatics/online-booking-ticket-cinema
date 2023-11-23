@@ -35,11 +35,25 @@ export class NotificationsController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<Notification[]> {
     return this.notificationsService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('notificationsbyuserid/:userId')
+  async findManybyUserId(
+    @Param('userId') userId: string,
+  ): Promise<Notification[]> {
+    return this.notificationsService.notifications({
+      where: {
+        userId: Number(userId),
+      },
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('notification/:id')
   async findOne(@Param('id') id: string): Promise<Notification> {
     return this.notificationsService.notification({

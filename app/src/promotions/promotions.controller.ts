@@ -46,6 +46,18 @@ export class PromotionsController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('promotionsbycinemaid/:cinemaId')
+  async findManyByCinemaId(
+    @Param('cinemaId') cinemaId: string,
+  ): Promise<Promotion[]> {
+    return this.promotionsService.promotions({
+      where: {
+        cinemaId: Number(cinemaId),
+      },
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('promotion/:id')
   async findOne(@Param('id') id: string): Promise<Promotion> {
     return this.promotionsService.promotion({ promotion_id: Number(id) });

@@ -40,6 +40,26 @@ export class ShowsController {
     return this.showsService.findAll();
   }
 
+  @Get('showsbyscreenid/:screenId')
+  async findManyByScreenId(
+    @Param('screenId') screenId: string,
+  ): Promise<Show[]> {
+    return this.showsService.shows({
+      where: {
+        screenId: Number(screenId),
+      },
+    });
+  }
+
+  @Get('showsbymovieId/:movieId')
+  async findManyByMovieId(@Param('movieId') movieId: string): Promise<Show[]> {
+    return this.showsService.shows({
+      where: {
+        movieId: Number(movieId),
+      },
+    });
+  }
+
   @Get('show/:id')
   async findOne(@Param('id') id: string): Promise<Show> {
     return this.showsService.show({ show_id: Number(id) });

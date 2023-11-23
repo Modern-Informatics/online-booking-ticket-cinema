@@ -39,6 +39,18 @@ export class ScreensController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('screensbycinemaid/:cinemaId')
+  async findManyByCinemaId(
+    @Param('cinemaId') cinemaId: string,
+  ): Promise<Screen[]> {
+    return this.screensService.screens({
+      where: {
+        cinemaId: Number(cinemaId),
+      },
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('screen/:id')
   async findOne(@Param('id') id: string): Promise<Screen | null> {
     return this.screensService.screen({ screen_id: Number(id) });

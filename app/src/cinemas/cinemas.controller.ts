@@ -46,6 +46,15 @@ export class CinemasController {
     return this.cinemasService.cinema({ cinema_id: Number(id) });
   }
 
+  @Get('cinemasbycityid/:cityId')
+  async findManyByCityId(@Param('cityId') cityId: string): Promise<Cinema[]> {
+    return this.cinemasService.cinemas({
+      where: {
+        cityId: Number(cityId),
+      },
+    });
+  }
+
   @Get('cinemas')
   async findByName(@Query('name') name: string): Promise<Cinema[]> {
     return this.cinemasService.cinemas({

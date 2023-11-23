@@ -16,12 +16,13 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(Role.ADMIN, Role.CINEMA)
+@UseGuards(JwtAuthGuard)
 @Controller('show-seats')
 export class ShowSeatsController {
   constructor(private readonly showSeatsService: ShowSeatsService) {}
 
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Post()
   async create(@Body() createShowSeatDto: CreateShowSeatDto) {
     const { showId, seatId, price, status } = createShowSeatDto;
@@ -42,12 +43,30 @@ export class ShowSeatsController {
     return this.showSeatsService.findAll();
   }
 
+  @Get('show-seatsbyshowid/:showId')
+  async findManyByShowId(@Param('showId') showId: string): Promise<ShowSeat[]> {
+    return this.showSeatsService.showSeats({
+      where: {
+        showId: Number(showId),
+      },
+    });
+  }
+
+  @Get('show-seatsbyseatid/:seatId')
+  async findManyBySeatId(@Param('seatId') seatId: string): Promise<ShowSeat[]> {
+    return this.showSeatsService.showSeats({
+      where: {
+        seatId: Number(seatId),
+      },
+    });
+  }
+
   @Get('show-seat/:id')
   async findOne(@Param('id') id: string): Promise<ShowSeat | null> {
     return this.showSeatsService.showSeat({ show_seat_id: Number(id) });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.CINEMA)
   @Patch('show-seat/:id')
   async update(
@@ -70,7 +89,7 @@ export class ShowSeatsController {
     });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.CINEMA)
   @Delete('show-seat/:id')
   async delete(@Param('id') id: string): Promise<ShowSeat | null> {

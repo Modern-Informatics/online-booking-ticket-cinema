@@ -20,7 +20,7 @@ export class NotificationsService {
     });
   }
 
-  async bookings(params: {
+  async notifications(params: {
     skip?: number;
     take?: number;
     cursor?: Prisma.NotificationWhereUniqueInput;
