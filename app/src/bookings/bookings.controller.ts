@@ -40,6 +40,16 @@ export class BookingsController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('bookingsbyuserid/:userId')
+  async findManyByUserId(@Param('userId') userId: string): Promise<Booking[]> {
+    return this.bookingsService.bookings({
+      where: {
+        userId: Number(userId),
+      },
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('booking/:id')
   async findOne(@Param('id') id: string): Promise<Booking> {
     return this.bookingsService.booking({ booking_id: Number(id) });

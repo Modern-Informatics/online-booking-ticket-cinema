@@ -1,4 +1,11 @@
-import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Role, User } from '@prisma/client';
@@ -21,6 +28,19 @@ export class UsersController {
   @Get('user/:id')
   async findOne(@Param('id') id: string): Promise<User | null> {
     return this.usersService.user({ user_id: Number(id) });
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('users')
+  async findByName(@Query('name') name: string): Promise<User[]> {
+    return this.usersService.users({
+      where: {
+        name: {
+          contains: name,
+        },
+      },
+    });
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

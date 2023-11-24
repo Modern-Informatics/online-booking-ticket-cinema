@@ -16,11 +16,11 @@ import { Roles } from 'src/auth/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('booking-details')
 export class BookingDetailsController {
   constructor(private readonly bookingDetailsService: BookingDetailsService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   async create(
     @Body() createBookingDetailDto: CreateBookingDetailDto,
@@ -36,14 +36,39 @@ export class BookingDetailsController {
     });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Get()
   async findAll(): Promise<BookingDetail[]> {
     return this.bookingDetailsService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
+  @Get('booking-detailsbybookingid/:bookingId')
+  async findManybyBookingId(
+    @Param('bookingId') bookingId: string,
+  ): Promise<BookingDetail[]> {
+    return this.bookingDetailsService.bookingDetails({
+      where: {
+        bookingId: Number(bookingId),
+      },
+    });
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
+  @Get('booking-detailsbyshowseatid/:showSeatId')
+  async findManyByShowSeatId(
+    @Param('showSeatId') showSeatId: string,
+  ): Promise<BookingDetail[]> {
+    return this.bookingDetailsService.bookingDetails({
+      where: {
+        showSeatId: Number(showSeatId),
+      },
+    });
+  }
+
   @Get('booking-detail/:id')
   async findOne(@Param('id') id: string): Promise<BookingDetail> {
     return this.bookingDetailsService.bookingDetail({
@@ -51,7 +76,6 @@ export class BookingDetailsController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch('booking-detail/:id')
   async update(
     @Param('id') id: string,
@@ -71,7 +95,6 @@ export class BookingDetailsController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Delete('booking-detail/:id')
   async remove(@Param('id') id: string) {
     return this.bookingDetailsService.delete({ booking_detail_id: Number(id) });
