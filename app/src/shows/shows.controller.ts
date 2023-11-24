@@ -24,7 +24,7 @@ export class ShowsController {
   @Roles(Role.ADMIN, Role.CINEMA)
   @Post()
   async create(@Body() createShowDto: CreateShowDto): Promise<Show> {
-    const { movieId, screenId } = createShowDto;
+    const { movieId, screenId, startAt, endAt } = createShowDto;
     return this.showsService.create({
       movie: {
         connect: { movie_id: movieId },
@@ -32,6 +32,8 @@ export class ShowsController {
       screen: {
         connect: { screen_id: screenId },
       },
+      startAt,
+      endAt,
     });
   }
 
@@ -78,6 +80,8 @@ export class ShowsController {
         screen: {
           connect: { screen_id: Number(updateShowDto.screenId) },
         },
+        startAt: updateShowDto.startAt,
+        endAt: updateShowDto.endAt,
       },
     });
   }
