@@ -1,0 +1,119 @@
+<!-- add-screen.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Screen with Seats</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h2>Add Screen with Seats</h2>
+        <form id="addScreenForm">
+            <div class="form-group">
+                <label for="cinemaId">Cinema ID:</label>
+                <input type="text" class="form-control" id="cinemaId" required>
+            </div>
+
+            <!-- Seat Section -->
+            <div class="form-group">
+                <label for="seats">Seats:</label>
+                <div id="seatsContainer">
+                    <!-- Seats will be dynamically added here -->
+                </div>
+                <button type="button" class="btn btn-primary mt-2" onclick="addSeat()">Add Seat</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Screen</button>
+        </form>
+    </div>
+
+    <script>
+// add-screen.js
+        document.getElementById('addScreenForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const cinemaId = document.getElementById('cinemaId').value;
+            // Retrieve seat information
+            const seats = [];
+            const seatElements = document.querySelectorAll('.seat');
+            seatElements.forEach(seatElement => {
+                const row = seatElement.querySelector('.row-input').value;
+                const seat_number = seatElement.querySelector('.seat-number-input').value;
+                seats.push({ row, seat_number });
+            });
+
+            console.log(seats)
+            // Make a POST request to your API endpoint
+            fetch('http://[::1]:3333/screens', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cinema_id: parseInt(cinemaId),
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Screen added successfully:', data);
+                // Optionally, redirect to another page or perform additional actions
+            })
+            .catch(error => {
+                console.error('Error adding screen:', error);
+            });
+
+            // add seats
+            for (const seat of seats) {
+                console.log(seat);
+                fetch('http://[::1]:3333/seats', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "screenId": cinemaId,
+                        "row": seat["row"],
+                        "seat_number": parseInt(seat["seat_number"])
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Seat added successfully:', data);
+                    // Optionally, redirect to another page or perform additional actions
+                })
+                .catch(error => {
+                    console.error('Error adding seat:', error);
+                });
+            }
+        });
+
+        function addSeat() {
+            const seatsContainer = document.getElementById('seatsContainer');
+
+            const seatDiv = document.createElement('div');
+            seatDiv.classList.add('seat');
+
+            const rowInput = document.createElement('input');
+            rowInput.classList.add('form-control', 'mb-2', 'row-input'); // Add 'row-input' class
+            rowInput.setAttribute('placeholder', 'Row');
+            rowInput.type = 'text';
+
+            const seatNumberInput = document.createElement('input');
+            seatNumberInput.classList.add('form-control', 'mb-2', 'seat-number-input'); // Add 'seat-number-input' class
+            seatNumberInput.setAttribute('placeholder', 'Seat Number');
+            seatNumberInput.type = 'text';
+
+            seatDiv.appendChild(rowInput);
+            seatDiv.appendChild(seatNumberInput);
+            seatsContainer.appendChild(seatDiv);
+        }
+
+
+
+    </script>
+
+</body>
+</html>

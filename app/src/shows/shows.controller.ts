@@ -80,8 +80,6 @@ export class ShowsController {
         screen: {
           connect: { screen_id: Number(updateShowDto.screenId) },
         },
-        startAt: updateShowDto.startAt,
-        endAt: updateShowDto.endAt,
       },
     });
   }

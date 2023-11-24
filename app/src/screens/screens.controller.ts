@@ -20,8 +20,8 @@ import { Roles } from 'src/auth/roles.decorator';
 export class ScreensController {
   constructor(private readonly screensService: ScreensService) {}
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN, Role.CINEMA)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Post()
   async create(@Body() createScreenDto: CreateScreenDto): Promise<Screen> {
     const { cinema_id } = createScreenDto;
@@ -32,7 +32,7 @@ export class ScreensController {
     });
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<Screen[]> {
     return this.screensService.findAll();
@@ -50,14 +50,14 @@ export class ScreensController {
     });
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('screen/:id')
   async findOne(@Param('id') id: string): Promise<Screen | null> {
     return this.screensService.screen({ screen_id: Number(id) });
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN, Role.CINEMA)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Patch('screen/:id')
   async update(
     @Param('id') id: string,
@@ -74,8 +74,8 @@ export class ScreensController {
     });
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN, Role.CINEMA)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Delete('screen/:id')
   async remove(@Param('id') id: string): Promise<Screen> {
     return this.screensService.delete({ screen_id: Number(id) });

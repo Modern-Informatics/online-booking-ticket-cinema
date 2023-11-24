@@ -21,6 +21,8 @@
 
 	<link href="/assets/css/admin.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/css/modal-css.css">
+
 </head>
 
 <body>
@@ -55,7 +57,11 @@
                         <i class="align-middle" data-feather="user"></i> <span class="align-middle">User</span>
                     </a>
                 </li>
-
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/admin/booking.html">
+                        <i class="align-middle" data-feather="layers"></i> <span class="align-middle">Booking</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -68,152 +74,6 @@
 
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav navbar-align">
-                    <!-- <li class="nav-item dropdown">
-                        <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
-                            <div class="position-relative">
-                                <i class="align-middle" data-feather="bell"></i>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
-                             aria-labelledby="alertsDropdown">
-                            <div class="dropdown-menu-header">
-                                4 New Notifications
-                            </div>
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <div class="row g-0 align-items-center">
-                                        <div class="col-2">
-                                            <i class="text-danger" data-feather="alert-circle"></i>
-                                        </div>
-                                        <div class="col-10">
-                                            <div class="text-dark">Update completed</div>
-                                            <div class="text-muted small mt-1">Restart server 12 to complete the
-                                                update.
-                                            </div>
-                                            <div class="text-muted small mt-1">30m ago</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <div class="row g-0 align-items-center">
-                                        <div class="col-2">
-                                            <i class="text-warning" data-feather="bell"></i>
-                                        </div>
-                                        <div class="col-10">
-                                            <div class="text-dark">Lorem ipsum</div>
-                                            <div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate
-                                                hendrerit et.
-                                            </div>
-                                            <div class="text-muted small mt-1">2h ago</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <div class="row g-0 align-items-center">
-                                        <div class="col-2">
-                                            <i class="text-primary" data-feather="home"></i>
-                                        </div>
-                                        <div class="col-10">
-                                            <div class="text-dark">Login from 192.186.1.8</div>
-                                            <div class="text-muted small mt-1">5h ago</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <div class="row g-0 align-items-center">
-                                        <div class="col-2">
-                                            <i class="text-success" data-feather="user-plus"></i>
-                                        </div>
-                                        <div class="col-10">
-                                            <div class="text-dark">New connection</div>
-                                            <div class="text-muted small mt-1">Christina accepted your request.</div>
-                                            <div class="text-muted small mt-1">14h ago</div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="dropdown-menu-footer">
-                                <a href="#" class="text-muted">Show all notifications</a>
-                            </div>
-                        </div>
-                    </li> -->
-                    <!-- <li class="nav-item dropdown">
-                        <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
-                            <div class="position-relative">
-                                <i class="align-middle" data-feather="message-square"></i>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
-                             aria-labelledby="messagesDropdown">
-                            <div class="dropdown-menu-header">
-                                <div class="position-relative">
-                                    4 New Messages
-                                </div>
-                            </div>
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <div class="row g-0 align-items-center">
-                                        <div class="col-2">
-                                            <img src="img/avatars/avatar-5.jpg" class="avatar img-fluid rounded-circle"
-                                                 alt="Vanessa Tucker">
-                                        </div>
-                                        <div class="col-10 ps-2">
-                                            <div class="text-dark">Vanessa Tucker</div>
-                                            <div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis arcu
-                                                tortor.
-                                            </div>
-                                            <div class="text-muted small mt-1">15m ago</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <div class="row g-0 align-items-center">
-                                        <div class="col-2">
-                                            <img src="img/avatars/avatar-2.jpg" class="avatar img-fluid rounded-circle"
-                                                 alt="William Harris">
-                                        </div>
-                                        <div class="col-10 ps-2">
-                                            <div class="text-dark">William Harris</div>
-                                            <div class="text-muted small mt-1">Curabitur ligula sapien euismod vitae.
-                                            </div>
-                                            <div class="text-muted small mt-1">2h ago</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <div class="row g-0 align-items-center">
-                                        <div class="col-2">
-                                            <img src="img/avatars/avatar-4.jpg" class="avatar img-fluid rounded-circle"
-                                                 alt="Christina Mason">
-                                        </div>
-                                        <div class="col-10 ps-2">
-                                            <div class="text-dark">Christina Mason</div>
-                                            <div class="text-muted small mt-1">Pellentesque auctor neque nec urna.</div>
-                                            <div class="text-muted small mt-1">4h ago</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <div class="row g-0 align-items-center">
-                                        <div class="col-2">
-                                            <img src="img/avatars/avatar-3.jpg" class="avatar img-fluid rounded-circle"
-                                                 alt="Sharon Lessman">
-                                        </div>
-                                        <div class="col-10 ps-2">
-                                            <div class="text-dark">Sharon Lessman</div>
-                                            <div class="text-muted small mt-1">Aenean tellus metus, bibendum sed,
-                                                posuere ac, mattis non.
-                                            </div>
-                                            <div class="text-muted small mt-1">5h ago</div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="dropdown-menu-footer">
-                                <a href="#" class="text-muted">Show all messages</a>
-                            </div>
-                        </div>
-                    </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
                             <i class="align-middle" data-feather="settings"></i>
@@ -235,7 +95,7 @@
                             <a class="dropdown-item" href="#"><i class="align-middle me-1"
                                                                  data-feather="help-circle"></i> Help Center</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Log out</a>
+                            <a id= "logout-button" class="dropdown-item" href="#">Log out</a>
                         </div>
                     </li>
                 </ul>
@@ -251,240 +111,20 @@
                             <div class="container-fluid">
                                 <a class="navbar-brand" href="#">
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">+ Add new Movie</button>
+                                    <button type="button" class="btn btn-success" onclick="showAllMovies()">Show all movies</button>
                                 </a>
-                                <form class="d-flex" role="search">
-                                    <input class="form-control me-2 fst-italic" type="search" placeholder="Enter Movie's name... "
+                                <form class="d-flex" role="search" onsubmit="return findByMovieName()">
+                                    <input class="form-control me-2 fst-italic" type="search" placeholder="Enter Movie's name..."
                                            aria-label="Search">
                                     <button class="btn btn-outline-success" type="submit">Search</button>
-                                </form>
+                                </form>                                
                             </div>
                         </nav>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped text-center">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Media</th>
-                                <th>Descripttion</th>
-                                <th>Star Cast</th>
-                                <th>Booking</th>
-                                <th>Seats available</th>
-                                <th colspan="2">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody id="categories">
-                            <tr>
-                                <td>1</td>
-                                <td>Name 1</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>2</td>
-                                <td>Name 2</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Name 3</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Name 4</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Name 5</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Name 6</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Name 7</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Name 8</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>Name 9</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>Name 10</td>
-                                <td><img style="height: 50%; width:50% ;" src="/seat_selection/images/Ricardo.jpg" alt=""></td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua
-                                </td>
-                                <td>Rincardo Milo</td>
-                                <td>
-                                    <button type="button" class="btn btn-twitter" data-bs-toggle="modal" data-bs-target="#bookingModal">Setup</button>
-                                </td>
-                                <td>1/50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            </tbody>
-
-                        </table>
-                    </div>
-                    <nav aria-label="Page navigation example ">
-                        <ul class="pagination float-end mx-4">
-                            <li class="page-item disabled">
-                                <a class="page-link">Previous</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                        <div id="dataContainer"></div>
+                    </div>                        
                     <!-- /.card-body -->
                 </div>
             </div>
@@ -534,128 +174,132 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
-                <label for="movie_name" class="form-label">Movie Name</label>
-                <input type="text" class="form-control" id="movie_name">
+                <label for="movie_name_new" class="form-label">Movie Name</label>
+                <input type="text" class="form-control" id="movie_name_new">
               </div>
               <div class="mb-3">
-                <label for="movie_image" class="form-label">Media</label>
-                <input type="file" class="form-control" id="movie_image" multiple>
-                <progress class="d-block" value="0" max="100" id="uploader">0%</progress>
-                <div id="list_images"></div>
+                <label for="genre_new" class="form-label">Genre</label>
+                <input type="text" class="form-control" id="genre_new">
               </div>
               <div class="mb-3">
-                <label for="description" class="form-label">Descriptions</label>
-                <textarea class="form-control" id="description" rows="3"></textarea>
+                <label for="description_new" class="form-label">Descriptions</label>
+                <textarea class="form-control" id="description_new" rows="3"></textarea>
               </div>
               <div class="mb-3">
-                <label for="starCast" class="form-label">Star Cast</label>
-                <input type="text" class="form-control" id="starCast" readonly>
+                <label for="director_new" class="form-label">Director</label>
+                <input type="text" class="form-control" id="director_new">
               </div>
               <div class="mb-3">
-                <label for="movie_price" class="form-label">Price</label>
-                <input type="number" class="form-control" id="movie_price">
-              </div>
-              <div class="mb-3">
-                <label for="movie_seat" class="form-label">Seat available max</label>
-                <input type="number" class="form-control" id="movie_seat">
+                <label for="mainActor_new" class="form-label">Main Actors</label>
+                <input type="text" class="form-control" id="mainActor_new">
               </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="addNewCategory()">ADD</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="addNewMovie()">ADD</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- Modal Edit -->
-  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="editModal">Edit Movie</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-                <label for="movie_id" class="form-label">ID</label>
-                <input type="text" class="form-control" id="movie_id" disabled>
-              </div>
-            <div class="mb-3">
-                <label for="movie_name" class="form-label">Movie Name</label>
-                <input type="text" class="form-control" id="movie_name_edit">
-              </div>
-              <div class="mb-3">
-                <label for="movie_image" class="form-label">Media</label>
-                <input type="file" class="form-control" id="movie_image" multiple>
-                <progress class="d-block" value="0" max="100" id="uploader">0%</progress>
-                <div id="list_images"></div>
-              </div>
-              <div class="mb-3">
-                <label for="description" class="form-label">Descriptions</label>
-                <textarea class="form-control" id="description_edit" rows="3"></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="starCast" class="form-label">Star Cast</label>
-                <input type="text" class="form-control" id="starCast" readonly>
-              </div>
-              <div class="mb-3">
-                <label for="movie_seat" class="form-label">Seat available max</label>
-                <input type="number" class="form-control" id="movie_seat">
-              </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateCategory()">UPDATE</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal Booking -->
-  <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModal" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="editModal">Booking</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="bookingSeat">
-          <form>
-            <div class="time-seat-selector">
-                <div class="mb-3">
-                    <label for="product_status" class="form-label">Product Status</label>
-                    <select  id="product_status">
-                        <option value="12:00">12:00</option>
-                        <option value="13:00">13:00</option>
-                        <option value="16:00">16:00</option>
-                        <option value="18:00">18:00</option>
-                    </select>
-                </div>
-                <div style="cursor: pointer; user-select: none;" id="add-icon">&#43;</div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateCategory()">UPDATE</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('add-icon').addEventListener('click', function() {
-            var container = document.getElementById('bookingSeat');
-            var newSelector = document.querySelector('.time-seat-selector').cloneNode(true);
-            container.appendChild(newSelector);
-        });
-    });
-  </script>
-<script src="/assets/js/admin.js"></script>
 
-<!-- <script src="./js/category.js"></script> -->
+    <!-- modal edit -->
+    <div class="modal" id="editMovieModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="editModal_edit">Edit Movie</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="movie_name" class="form-label">Movie Name</label>
+                        <input type="text" class="form-control" id="movie_name_edit">
+                      </div>
+                      <div class="mb-3">
+                        <label for="genre" class="form-label">Genre</label>
+                        <input type="text" class="form-control" id="genre_edit">
+                      </div>
+                      <div class="mb-3">
+                        <label for="description" class="form-label">Descriptions</label>
+                        <textarea class="form-control" id="description_edit" rows="3"></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="director" class="form-label">Director</label>
+                        <input type="text" class="form-control" id="director_edit">
+                      </div>
+                      <div class="mb-3">
+                        <label for="mainActor" class="form-label">Main Actors</label>
+                        <input type="text" class="form-control" id="mainActor_edit">
+                      </div>
+                  </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitEditForm()">UPDATE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Add Show -->
+      <div class="modal" id="addShowModal" tabindex="-1" aria-labelledby="addShowModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addShowModalLabel">Add Show</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeShowModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addShowForm">
+                        <div class="mb-3">
+                            <label for="cinemaSelect" class="form-label">Select Cinema</label>
+                            <select class="form-select" id="cinemaSelect" onchange="fetchScreens()">
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="screenSelect" class="form-label">Select Screen</label>
+                            <select class="form-select" id="screenSelect">
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="startTime" class="form-label">Start Time</label>
+                            <input type="datetime-local" class="form-control" id="startTime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="endTime" class="form-label">End Time</label>
+                            <input type="datetime-local" class="form-control" id="endTime" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Show</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+         <!-- show manage Modal -->
+        <div id="manageShowModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeManageShowModal()">&times;</span>
+                <h1 class="modal-title fs-5">Manage shows</h1>
+                <ul id="showList"></ul>
+            </div>
+        </div>
+         <!-- show infor Modal -->
+         <div id="showInfoModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeShowInfoModal()">&times;</span>
+                <h2>Show Information</h2>
+                <div id="showInfoContent">
+                    <!-- Thêm nội dung thông tin show ở đây -->
+                </div>
+            </div>
+        </div>
+    <script src="/assets/js/admin.js"></script>
+    <script src="/assets/js/movie-admin.js"></script>
+	<script src="/assets/js/logout.js"></script>
 
 </body>
 

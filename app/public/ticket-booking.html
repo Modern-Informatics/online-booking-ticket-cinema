@@ -96,12 +96,53 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         </div>
 
-        <div class="Login_SignUp" id="login_s">
-          <!-- style="font-size: 2rem ; display: inline-block; position: relative;" -->
-          <!-- <li class="nav-item"> -->
-          <a class="nav-link" href="sign_in.html"><i class="fa fa-user-circle-o"></i></a>
-          <!-- </li> -->
-        </div>
+        <div class="Login_SignUp" id="login"
+						style="font-size: 2rem ; display: inline-block; position: relative;">
+						<!-- <li class="nav-item"> -->
+							<a class="nav-link" id="userLink">
+								<i class="fa fa-user-circle-o"></i>
+								<span id="userEmail" style="display: none;"></span>
+							</a>
+							
+							<script>
+								const userEmail = localStorage.getItem('email');
+								const userState = localStorage.getItem('state');
+								const role = localStorage.getItem('role');
+
+								const userLink = document.getElementById('userLink');
+								const userEmailSpan = document.getElementById('userEmail');
+							  
+								// Kiểm tra giá trị của "state" và đặt href tương ứng
+								if (userState === 'logged-out') {
+								  userLink.href = 'sign_in.html';
+								} else if (userState === 'logged-in') {
+									if (userEmail) {
+										userEmailSpan.textContent = userEmail;
+										userEmailSpan.style.display = 'inline-block';
+									}
+									if (role == 'ADMIN') {
+										userLink.href = 'admin/index.html';
+									} else {
+										userLink.href = 'index.html';
+									}
+								} else {
+								  // Xử lý trường hợp khác nếu cần thiết
+								}
+							  </script>
+
+							  <style>
+								#userEmail {
+									font-size: 1rem; 
+									margin-left: 5px;
+								}
+							  </style>
+						<!-- </li> -->
+					</div>
+					<div class="Logout_Signout" id="logout"
+						style="font-size: 2rem ; display: inline-block; position: relative;">
+							<a class="nav-link" id="logout-icon" onclick="logout()"><i class="fa fa-sign-out"></i></a>
+							<script type="text/javascript" src="assets/js/logout.js"></script>
+					</div>
         <!-- toggle switch for light and dark theme -->
         <div class="mobile-position">
           <nav class="navigation">

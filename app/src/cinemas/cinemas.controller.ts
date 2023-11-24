@@ -21,8 +21,8 @@ import { Roles } from 'src/auth/roles.decorator';
 export class CinemasController {
   constructor(private readonly cinemasService: CinemasService) {}
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN, Role.CINEMA)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Post()
   async create(@Body() createCinemaDto: CreateCinemaDto): Promise<Cinema> {
     const { name, city_id, email, phone_number } = createCinemaDto;
@@ -66,8 +66,8 @@ export class CinemasController {
     });
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN, Role.CINEMA)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Patch('cinema/:id')
   async update(
     @Param('id') id: string,
@@ -79,9 +79,8 @@ export class CinemasController {
     });
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.CINEMA)
-  // @UseGuards(JwtAuthGuard)
   @Delete('cinema/:id')
   async remove(@Param('id') id: string): Promise<Cinema> {
     return this.cinemasService.delete({ cinema_id: Number(id) });

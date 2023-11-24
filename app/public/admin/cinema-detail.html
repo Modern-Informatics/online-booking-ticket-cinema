@@ -20,7 +20,6 @@
 	<link href="/assets/css/admin.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/assets/css/modal-css.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/screenList.css">
 
 </head>
 
@@ -94,7 +93,7 @@
                             <a class="dropdown-item" href="#"><i class="align-middle me-1"
                                                                  data-feather="help-circle"></i> Help Center</a>
                             <div class="dropdown-divider"></div>
-                            <a id= "logout-button" class="dropdown-item" href="#">Log out</a>
+                            <a class="dropdown-item" href="#">Log out</a>
                         </div>
                     </li>
                 </ul>
@@ -105,36 +104,38 @@
             <div class="container-fluid p-0">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Cinema List</h3>
-                        <nav class="navbar navbar-expand-lg bg-light">
-                            <div class="container-fluid">
-                                <a class="navbar-brand" href="#">
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">+ Add new Cinema</button>
-                                </a>
-                            </div>
-                        </nav>
+                        <h3 class="card-title">Add Cinema</h3>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div id="dataContainer"></div>
-                        <!-- HTML modal/dialog structure -->
-                        <div id="editModal" class="modal">
-                            <div class="modal-content">
-                                <span class="close" onclick="closeModal()">&times;</span>
-                                <label for="newName">New Name:</label>
-                                <input type="text" id="newName" name="newName">
-
-                                <label for="newEmail">New Email:</label>
-                                <input type="text" id="newEmail" name="newEmail">
-
-                                <label for="newPhoneNumber">New Phone Number:</label>
-                                <input type="text" id="newPhoneNumber" name="newPhoneNumber">
-
-                                <button onclick="submitEditForm()">Submit</button>
+                    <div class="container mt-5">
+                        <h2>Add New Cinema</h2>
+                        <form id="addCinemaForm">
+                            <div class="form-group">
+                                <label for="name">Cinema Name:</label>
+                                <input type="text" class="form-control" id="name" required>
                             </div>
-                        </div>
-                    
-                    <!-- /.card-body -->
+                            <div class="form-group">
+                                <label for="email">Cinema Email:</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number:</label>
+                                <input type="text" class="form-control" id="phoneNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNumber">Number of screen:</label>
+                                <input type="text" class="form-control" id="numberScreen" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNumber">Qty seat of each screen:</label>
+                                <input type="text" class="form-control" id="qtySeatScreen" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addressCinema" class="form-label">Location</label>
+                                <select  id="addressCinema"></select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Cinema</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </main>
@@ -230,7 +231,12 @@
               </div>
               <div class="mb-3">
                 <label for="addressCinema" class="form-label">Address</label>
-                <select  id="addressCinema"></select>
+                <select  id="addressCinema">
+                    <option value="City1">City1</option>
+                    <option value="City2">City1</option>
+                    <option value="City3">City1</option>
+                    <option value="City4">City1</option>
+                </select>
             </div>
               <!-- <div class="mb-3">
                 <label for="createdDate" class="form-label">CreatedDate</label>
@@ -245,72 +251,10 @@
       </div>
     </div>
   </div>
+<script src="/assets/js/admin.js"></script>
+<script src="/assets/js/cinema-admin.js"></script> 
 
-    <!-- Updated Modal for Add Screen -->
-    <div class="modal fade" id="addScreenModal" tabindex="-1" aria-labelledby="addScreenModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addScreenModalLabel">Add Screen</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeAddScreenModal()"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addScreenFormInModal">
-                        <!-- <div class="mb-3">
-                            <label for="cinemaId" class="form-label">Cinema ID:</label>
-                            <input type="text" class="form-control" id="cinemaId" required>
-                        </div> -->
-
-                        <!-- Seat Section -->
-                        <div class="mb-3">
-                            <label for="seats">Seats:</label>
-                            <div id="seatsContainer">
-                                <div class="mb-3">
-                                    <label for="numRows" class="form-label">number of row</label>
-                                    <input type="text" class="form-control" id="numRows">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="seatsPerRow" class="form-label">seat per row</label>
-                                    <input type="text" class="form-control" id="seatsPerRow">
-                                </div>
-                                <!-- Seats will be dynamically added here -->
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button id="addScreenSubmit" type="submit" class="btn btn-primary">Add Screen</button>
-                        </div>
-                    </form>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-
-    <!-- Screen Modal -->
-    <div id="screenModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeScreenModal()">&times;</span>
-            <h1 class="modal-title fs-5">Manage Screens</h1>
-            <p class="screen-count" id="screenCount">Total: 0</p>
-            <ul id="screenList"></ul>
-        </div>
-    </div>
-
-    <!-- Seat Modal -->
-    <div id="seatModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeSeatModal()">&times;</span>
-            <!-- <h1 class="modal-title fs-5">Manage Seats</h1> -->
-            <h1 class="modal-title fs-5" id="screenModalTitle">Screen Details</h1>
-            <p class="seat-count" id="seatCount">Seat count: 0</p>
-            <ul id="seatList"></ul>
-        </div>
-    </div>
-
-    <script src="/assets/js/admin.js"></script>
-    <script src="/assets/js/cinema-admin.js"></script>
-	<script src="/assets/js/logout.js"></script>
+<!-- <script src="./js/category.js"></script> -->
 
 </body>
 

@@ -20,8 +20,8 @@ import { Roles } from 'src/auth/roles.decorator';
 export class SeatsController {
   constructor(private readonly seatsService: SeatsService) {}
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN, Role.CINEMA)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.CINEMA)
   @Post()
   async create(@Body() createSeatDto: CreateSeatDto): Promise<Seat> {
     const { screenId, row, seat_number } = createSeatDto;

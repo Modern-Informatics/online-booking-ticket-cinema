@@ -50,10 +50,10 @@ function signUpValidateForm() {
 	}
 }
 
-function signInValidateForm() {
+async function signInValidateForm() {
 
-	x = document.forms["sign-in-form"]["sign-in-email"].value;
-	if (x == "") {
+	email = document.forms["sign-in-form"]["sign-in-email"].value;
+	if (email == "") {
 		//   alert("'Email' can not be empty!!");
 		asAlertMsg({
 			type: "error",
@@ -67,8 +67,8 @@ function signInValidateForm() {
 		});
 		return false;
 	}
-	x = document.forms["sign-in-form"]["sign-in-passwd"].value;
-	if (x == "") {
+	password = document.forms["sign-in-form"]["sign-in-passwd"].value;
+	if (password == "") {
 		//   alert("'Password' can not be empty!!");
 		asAlertMsg({
 			type: "error",
@@ -82,6 +82,38 @@ function signInValidateForm() {
 		});
 		return false;
 	}
+
+	console.log(email, password)
+
+	try {
+		const response = await fetch('http://[::1]:3333/auth/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				"email": email,
+				"password": password
+			}),
+		});
+	
+		const result = await response.json();
+
+		console.log(parseJwt(result.result.token))
+
+		if (response.ok) {
+			localStorage.setItem('token', result.result.token);
+			localStorage.setItem('email', email);
+			localStorage.setItem('state', "logged-in");
+			localStorage.setItem('role', parseJwt(result.result.token).role)
+			window.location = "http://[::1]:3333/";
+		} else {
+			alert(result.message);
+		}
+	} catch (error) {
+		console.error('Fetch error:', error);
+	}
+	
 }
 
 signUpButton.addEventListener('click', () => {
@@ -91,3 +123,13 @@ signUpButton.addEventListener('click', () => {
 signInButton.addEventListener('click', () => {
 	container.classList.remove("right-panel-active");
 });
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
