@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateShowDto {
   @IsNumber()
@@ -8,4 +8,10 @@ export class CreateShowDto {
   @IsNumber()
   @IsNotEmpty()
   screenId: number;
+
+  @IsDate()
+  startAt: Date;
+
+  @IsDate()
+  endAt: Date;
 }

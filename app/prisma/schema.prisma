@@ -87,6 +87,8 @@ model Show{
   screen Screen @relation(fields: [screenId], references: [screen_id], onDelete: Cascade)
   screenId Int
   ShowSeat ShowSeat[]
+  startAt DateTime?
+  endAt DateTime?
 }
 
 model Seat{
