@@ -67,11 +67,26 @@ function renderData(data) {
     // Create data rows
     data.forEach(movie => {
         const dataRow = document.createElement('tr');
-        Object.values(movie).forEach(value => {
+        for (const key in movie) {
+            const value = movie[key];
             const dataCell = document.createElement('td');
-            dataCell.textContent = value;
+
+            // Check if the current key is 'url_image'
+            if (key === 'url_image') {
+                if (value){
+                    const imageElement = document.createElement('img');
+                    imageElement.src = value; // Assuming 'value' is the URL of the image
+                    imageElement.alt = 'Movie Image';
+                    // imageElement.style.width = '10px';
+                    imageElement.style.maxHeight = '200px'; // Adjust the width as needed
+                    dataCell.appendChild(imageElement);
+                }
+            } else {
+                dataCell.textContent = value;
+            }
+
             dataRow.appendChild(dataCell);
-        });
+        }
 
         // Add delete and edit buttons
         const actionsCell = document.createElement('td');
@@ -151,7 +166,7 @@ function closeModal() {
 }
 
 // Function to submit the form within the modal
-function submitEditForm() {
+async function submitEditForm() {
     const movieId = document.getElementById('editMovieModal').dataset.movieId;
 
     const movie_name_edit = document.getElementById('movie_name_edit').value;
@@ -160,7 +175,73 @@ function submitEditForm() {
     const director_edit = document.getElementById('director_edit').value;
     const mainActor_edit = document.getElementById('director_edit').value;
 
+    const fileInput = document.getElementById('image_movie_edit');
+    const imagePreview = document.getElementById('imagePreview_edit');
     const token = localStorage.getItem('token');
+
+    let imageUrl = '';
+    const file = fileInput.files[0];
+
+    if (file) {
+      // Display a preview of the selected image (optional)
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+      };
+      reader.readAsDataURL(file);
+
+      // Use FormData to prepare the file for upload
+      const formData = new FormData();
+      formData.append('image', file);
+      // Make a POST request to your backend endpoint
+      await fetch('http://[::1]:3333/movies/upload', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      }).then(data => {
+        console.log('Image uploaded successfully:', data);
+        imageUrl = data.url;
+      })
+      .catch(error => {
+        console.error('Error uploading image:', error);
+      });
+    }
+
+    // Step 3: Prepare the payload
+    const updatePayload = {};
+
+    // Check and update each field if it's not null
+    if (movie_name_edit !== '') {
+        updatePayload.title = movie_name_edit;
+    }
+
+    if (genre_edit !== '') {
+        updatePayload.genre = genre_edit;
+    }
+
+    if (description_edit !== '') {
+        updatePayload.description = description_edit;
+    }
+
+    if (director_edit !== '') {
+        updatePayload.director = director_edit;
+    }
+
+    if (mainActor_edit !== '') {
+        updatePayload.main_actors = mainActor_edit;
+    }
+
+    if (imageUrl !== '') {
+        updatePayload.url_image = imageUrl;
+    }
 
     // Make PATCH request to the backend
     fetch(`http://[::1]:3333/movies/movie/${movieId}`, {
@@ -169,14 +250,7 @@ function submitEditForm() {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({
-            "title": movie_name_edit,
-            "director": director_edit,
-            "main_actors": mainActor_edit,
-            "genre": genre_edit,
-            "url_image": null,
-            "description": description_edit
-        }),
+        body: JSON.stringify(updatePayload),
     })
     .then(response => {
         if (!response.ok) {
@@ -213,18 +287,55 @@ async function addNewMovie() {
     const description_new = document.getElementById('description_new').value;
     const director_new = document.getElementById('director_new').value;
     const mainActor_new = document.getElementById('director_new').value;
-
+    const fileInput = document.getElementById('image_movie');
+    const imagePreview = document.getElementById('imagePreview');
     const token = localStorage.getItem('token');
+
+    let imageUrl = '';
+    const file = fileInput.files[0];
+
+    if (file) {
+      // Display a preview of the selected image (optional)
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+      };
+      reader.readAsDataURL(file);
+
+      // Use FormData to prepare the file for upload
+      const formData = new FormData();
+      formData.append('image', file);
+      // Make a POST request to your backend endpoint
+      await fetch('http://[::1]:3333/movies/upload', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      }).then(data => {
+        console.log('Image uploaded successfully:', data);
+        imageUrl = data.url;
+      })
+      .catch(error => {
+        console.error('Error uploading image:', error);
+      });
+    }
 
     const newMovie = {
         "title": movie_name_new,
         "director": director_new,
         "main_actors": mainActor_new,
         "genre": genre_new,
-        "url_image": null,
-        "description": description_new
+        "url_image": imageUrl,
+        "description": description_new,
     };
-
+    
     console.log(newMovie)
 
     try {
@@ -309,6 +420,9 @@ async function addShow(event) {
     const cinemaSelect = document.getElementById('cinemaSelect');
     const selectedCinemaId = cinemaSelect.value;
 
+    const priceAdded = document.getElementById('screenSelect');
+    const priceAddedValue = priceAdded.value;
+
     const screenSelect = document.getElementById('screenSelect');
     const selectedScreenId = screenSelect.value;
 
@@ -320,6 +434,8 @@ async function addShow(event) {
     const endTime = formatDateTimeInput(endTimeInput.value);
 
     console.log(startTime, endTime)
+
+    let newshow;
 
     if (selectedCinemaId && selectedScreenId) {
         try {
@@ -339,6 +455,8 @@ async function addShow(event) {
 
             if (response.ok) {
                 console.log('Show added successfully.');
+                newshow = await response.json();
+
                 closeShowModal()
             } else {
                 console.error('Error adding show:', response.statusText);
@@ -348,6 +466,89 @@ async function addShow(event) {
         }
     } else {
         console.error('Please select both cinema and screen.');
+    }
+
+    // add show-seats
+    const data = await getSeatsByScreenId(selectedScreenId)
+    data.forEach(async seat => {
+        const seatId = seat.seat_id;
+        await createShowSeat( newshow.show_id, seatId, priceAddedValue);
+    });
+}
+
+async function createShowSeat(showId, seat_id, price) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/show-seats`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(
+                {
+                    "showId": showId,
+                    "seatId": seat_id,
+                    "price": price
+                }
+            ),
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+    }
+}
+
+async function getSeatsByScreenId(screen_id) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/seats/seatsbyscreenid/${screen_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+    }
+}
+
+async function getShowSeatsByShowId(show_id) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/show-seats/show-seatsbyshowid/${show_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
     }
 }
 
@@ -401,8 +602,6 @@ async function manageShowModal(movieId) {
     const showData = await showsResponse.json();
     const showList = document.getElementById('showList');
 
-    // const seatCountElement = document.getElementById('screenCount');
-    // seatCountElement.textContent = `Total: ${showData.length}`;
 
     // Clear previous content
     showList.innerHTML = '';
@@ -455,11 +654,9 @@ async function getShowInfo(showId) {
 }
 
 async function openShowInfoModal(showInfo) {
-    // Tương tự như trước
     const modal = document.getElementById('showInfoModal');
     const contentContainer = document.getElementById('showInfoContent');
 
-    // Xóa nội dung cũ
     contentContainer.innerHTML = '';
 
     const movieInfo = await getMovieById(showInfo.movieId);
@@ -475,8 +672,36 @@ async function openShowInfoModal(showInfo) {
                               <span>Start Time:</span> ${showInfo.startAt}<br>
                               <span>End Time:</span> ${showInfo.endAt}`;    
     contentContainer.appendChild(showInfoText);
+
+    const seatsData = await getShowSeatsByShowId(showInfo.show_id);
+    const seatList = document.getElementById('showSeatList');
+
+    // Clear previous content
+    seatList.innerHTML = '';
+
+    // Populate seat list
+    seatsData.forEach(async seat => {
+        const listItem = document.createElement('li');
+        const seat_data = await getSeatById(seat.seatId)
+        listItem.textContent = `${seat_data.row}${seat_data.seat_number}`;
+        // Áp dụng lớp CSS tùy thuộc vào giá trị status
+        listItem.classList.add(getStatusClass(seat.status), "seat");
+
+        seatList.appendChild(listItem);
+    });
+
     // Hiển thị modal
     modal.style.display = 'block';
+}
+
+function getStatusClass(status) {
+    switch (status) {
+        case 'AVAILABLE':
+            return 'available';
+        // Thêm các trường hợp khác nếu cần
+        default:
+            return 'other-status';
+    }
 }
 
 function closeShowInfoModal() {
@@ -534,6 +759,29 @@ async function getCinemaById(cinemaId) {
         const token = localStorage.getItem('token');
 
         const response = await fetch(`http://[::1]:3333/cinemas/cinema/${cinemaId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+    }
+}
+
+async function getSeatById(seat_id) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/seats/seat/${seat_id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

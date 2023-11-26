@@ -114,7 +114,8 @@
                                     <button type="button" class="btn btn-success" onclick="showAllMovies()">Show all movies</button>
                                 </a>
                                 <form class="d-flex" role="search" onsubmit="return findByMovieName()">
-                                    <input class="form-control me-2 fst-italic" type="search" placeholder="Enter Movie's name..."
+                                    <input class="form-control me-2 fst-italic" type="search" 
+                                            placeholder="Enter Movie's name..."
                                            aria-label="Search">
                                     <button class="btn btn-outline-success" type="submit">Search</button>
                                 </form>                                
@@ -176,23 +177,28 @@
             <div class="mb-3">
                 <label for="movie_name_new" class="form-label">Movie Name</label>
                 <input type="text" class="form-control" id="movie_name_new">
-              </div>
-              <div class="mb-3">
+            </div>
+            <div class="mb-3">
                 <label for="genre_new" class="form-label">Genre</label>
                 <input type="text" class="form-control" id="genre_new">
-              </div>
-              <div class="mb-3">
+            </div>
+            <div class="mb-3">
                 <label for="description_new" class="form-label">Descriptions</label>
                 <textarea class="form-control" id="description_new" rows="3"></textarea>
-              </div>
-              <div class="mb-3">
+            </div>
+            <div class="mb-3">
                 <label for="director_new" class="form-label">Director</label>
                 <input type="text" class="form-control" id="director_new">
-              </div>
-              <div class="mb-3">
+            </div>
+            <div class="mb-3">
                 <label for="mainActor_new" class="form-label">Main Actors</label>
                 <input type="text" class="form-control" id="mainActor_new">
-              </div>
+            </div>
+            <div class="mb-3">
+                <label for="image_movie">Select Image:</label>
+                <input type="file" id="image_movie" accept="image/*">
+                <div id="imagePreview"></div>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -233,6 +239,11 @@
                         <label for="mainActor" class="form-label">Main Actors</label>
                         <input type="text" class="form-control" id="mainActor_edit">
                       </div>
+                      <div class="mb-3">
+                        <label for="image_movie_edit">Select Image:</label>
+                        <input type="file" id="image_movie_edit" accept="image/*">
+                        <div id="imagePreview_edit"></div>
+                    </div>
                   </form>
             </div>
             <div class="modal-footer">
@@ -266,6 +277,10 @@
                             </select>
                         </div>
                         <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="price" required>
+                        </div>
+                        <div class="mb-3">
                             <label for="startTime" class="form-label">Start Time</label>
                             <input type="datetime-local" class="form-control" id="startTime" required>
                         </div>
@@ -295,6 +310,8 @@
                 <div id="showInfoContent">
                     <!-- Thêm nội dung thông tin show ở đây -->
                 </div>
+                <h2>Seats: </h2>
+                <ul id="showSeatList"></ul>
             </div>
         </div>
     <script src="/assets/js/admin.js"></script>

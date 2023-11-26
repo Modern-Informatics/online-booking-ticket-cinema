@@ -108,9 +108,10 @@
                         <nav class="navbar navbar-expand-lg bg-light">
                             <div class="container-fluid">
                                 <a class="navbar-brand" href="#">
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">+ Create new Account</button>
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">+ Create new Account</button>
+                                    <button type="button" class="btn btn-success" onclick="showAllUsers()">Show all users</button>
                                 </a>
-                                <form class="d-flex" role="search">
+                                <form class="d-flex" role="search" onsubmit="return findByuserName()">
                                     <input class="form-control me-2 fst-italic" type="search"
                                            placeholder="Enter user's name... "
                                            aria-label="Search">
@@ -121,219 +122,8 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped text-center">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Image</th>
-                                <th>FullName</th>
-                                <th>Date of birth</th>
-                                <th>About</th>
-                                <th>Status</th>
-                                <th>Email</th>
-                                <th colspan="2">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>user1</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>user2</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>user3</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>user4</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>user5</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>user6</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>user7</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>user8</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>user9</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>user10</td>
-                                <td><img width="40%" src="/seat_selection/images/Ricardo.jpg" alt="avt"></td>
-                                <td>Rincardo</td>
-                                <td>??</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </td>
-                                <td>Online</td>
-                                <td>a@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">Unlock</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Lock</button>
-                                </td>
-                            </tr>
-
-                            </tbody>
-
-                        </table>
-                    </div>
-                    <nav aria-label="Page navigation example ">
-                        <ul class="pagination float-end mx-4">
-                            <li class="page-item disabled">
-                                <a class="page-link">Previous</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                        <div id="dataContainer"></div>
+                    </div>  
                     <!-- /.card-body -->
                 </div>
 
@@ -375,56 +165,86 @@
 </div>
 
 <script src="/assets/js/admin.js"></script>
-<!-- Modal Add -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Add User -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Account</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add New User</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="user_name_new" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="user_name_new">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_email_new" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="user_email_new">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_password_new">Password</label>
+                        <input type="password" class="form-control" id="user_password_new">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_role_new" class="form-label">Role</label>
+                        <select class="form-select" id="user_role_new">
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="await addNewUser()">ADD</button>
+            </div>
         </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-                <label for="user_name" class="form-label">User Name</label>
-                <input type="text" class="form-control" id="user_name">
-              </div>
-              <div class="mb-3">
-                <label for="user_image" class="form-label">Media</label>
-                <input type="file" class="form-control" id="user_image" multiple>
-                <progress class="d-block" value="0" max="100" id="uploader">0%</progress>
-                <div id="list_images"></div>
-              </div>
-              <div class="mb-3">
-                <label for="user_full_name" class="form-label">Full name</label>
-                <input type="text" class="form-control" id="user_full_name">
-              </div>
-              <!-- <div class="mb-3">
-                <label for="description" class="form-label">Descriptions</label>
-                <textarea class="form-control" id="description" rows="3"></textarea>
-              </div> -->
-              <div class="mb-3">
-                <label for="date_of_birth" class="form-label">Date of birth</label>
-                <input type="text" class="form-control" id="date_of_birth" readonly>
-              </div>
-            <div class="mb-3">
-                <label for="about" class="form-label">About</label>
-                <textarea class="form-control" id="about" rows="3"></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="user_email" class="form-label">Email</label>
-                <input type="text" class="form-control" id="user_email">
-              </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="addNewCategory()">ADD</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<!-- Modal Edit User -->
+<div class="modal" id="editUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editModal_edit">Edit User</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeUserModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="user_name_edit" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="user_name_edit">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_email_edit" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="user_email_edit">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_password_edit">Password</label>
+                        <input type="password" class="form-control" id="user_password_edit">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_role_edit" class="form-label">Role</label>
+                        <select class="form-select" id="user_role_edit">
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeUserModal()">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitEditUserForm()">UPDATE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
   <script src="/assets/js/logout.js"></script>
+  <script src="/assets/js/user-admin.js"></script>
 
 </body>
 

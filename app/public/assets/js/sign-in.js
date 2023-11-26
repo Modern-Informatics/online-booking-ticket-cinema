@@ -2,9 +2,9 @@ const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container_signup_signin');
 
-function signUpValidateForm() {
-	var x = document.forms["sign-up-form"]["sign-up-name"].value;
-	if (x == "") {
+async function signUpValidateForm() {
+	var name = document.forms["sign-up-form"]["sign-up-name"].value;
+	if (name == "") {
 		//   alert("'Name' can not be empty!!");
 		asAlertMsg({
 			type: "error",
@@ -18,8 +18,8 @@ function signUpValidateForm() {
 		});
 		return false;
 	}
-	x = document.forms["sign-up-form"]["sign-up-email"].value;
-	if (x == "") {
+	email = document.forms["sign-up-form"]["sign-up-email"].value;
+	if (email == "") {
 		//   alert("'Email' can not be empty!!");
 		asAlertMsg({
 			type: "error",
@@ -33,8 +33,8 @@ function signUpValidateForm() {
 		});
 		return false;
 	}
-	x = document.forms["sign-up-form"]["sign-up-passwd"].value;
-	if (x == "") {
+	password = document.forms["sign-up-form"]["sign-up-passwd"].value;
+	if (password == "") {
 		//   alert("'Password' can not be empty!!");
 		asAlertMsg({
 			type: "error",
@@ -47,6 +47,52 @@ function signUpValidateForm() {
 			}
 		});
 		return false;
+	}
+	
+	try {
+		const response = await fetch('http://[::1]:3333/auth/register', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				"email": email,
+				"name": name,
+				"password": password,
+				"role": "USER"
+			}),
+		});
+	} catch (error) {
+		console.error('Fetch error:', error);
+	}
+
+	try {
+		const response = await fetch('http://[::1]:3333/auth/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				"email": email,
+				"password": password
+			}),
+		});
+	
+		const result = await response.json();
+
+		console.log(parseJwt(result.result.token))
+
+		if (response.ok) {
+			localStorage.setItem('token', result.result.token);
+			localStorage.setItem('email', email);
+			localStorage.setItem('state', "logged-in");
+			localStorage.setItem('role', parseJwt(result.result.token).role)
+			window.location = "http://[::1]:3333/";
+		} else {
+			alert(result.message);
+		}
+	} catch (error) {
+		console.error('Fetch error:', error);
 	}
 }
 
@@ -82,8 +128,6 @@ async function signInValidateForm() {
 		});
 		return false;
 	}
-
-	console.log(email, password)
 
 	try {
 		const response = await fetch('http://[::1]:3333/auth/login', {

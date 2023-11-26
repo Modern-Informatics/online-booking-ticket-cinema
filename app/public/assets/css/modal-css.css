@@ -175,3 +175,27 @@ ul {
     top: 0;
 }
 
+.seat {
+    width: 30px;
+    height: 30px;
+    background-color: gray;
+    margin: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CSS cho seat có status là AVAILABLE */
+.available {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+
+/* CSS cho seat có status khác AVAILABLE */
+.other-status {
+    background-color: gray;
+    color: white;
+    font-weight: bold;
+}
+

@@ -86,7 +86,7 @@ input {
 	background-color: var(--theme-bg);
 	color: var(--theme-text);
 	/* #eee; */
-	border: none;
+	border:  0.5px solid #333;
 	padding: 12px 15px;
 	margin: 8px 0;
 	width: 100%;

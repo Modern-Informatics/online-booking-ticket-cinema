@@ -17,6 +17,8 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtService } from '@nestjs/jwt';
+import { MulterModule } from '@nestjs/platform-express';
+
 // import { AuthMiddleware } from './auth/middleware/auth.middleware';
 
 @Module({
@@ -38,6 +40,9 @@ import { JwtService } from '@nestjs/jwt';
     NotificationsModule,
     UsersModule,
     AuthModule,
+    MulterModule.register({
+      dest: './public/asets/images', 
+    }),
   ],
 })
 export class AppModule {}

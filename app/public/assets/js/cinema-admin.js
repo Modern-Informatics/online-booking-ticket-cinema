@@ -130,6 +130,20 @@ function submitEditForm() {
 
     const token = localStorage.getItem('token');
 
+    const updatePayload = {};
+
+    if (newName !== '') {
+        updatePayload.name = newName;
+    }
+
+    if (newEmail !== '') {
+        updatePayload.email = newEmail;
+    }
+
+    if (newPhoneNumber !== '') {
+        updatePayload.phone_number = newPhoneNumber;
+    }
+
     // Make PATCH request to the backend
     fetch(`http://[::1]:3333/cinemas/cinema/${cinemaId}`, {
         method: 'PATCH',
@@ -137,12 +151,7 @@ function submitEditForm() {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({
-            name: newName,
-            email: newEmail,
-            phone_number: newPhoneNumber,
-            // Include other properties as needed
-        }),
+        body: JSON.stringify(updatePayload),
     })
     .then(response => {
         if (!response.ok) {
