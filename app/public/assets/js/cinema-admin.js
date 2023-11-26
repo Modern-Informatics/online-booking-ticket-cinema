@@ -132,15 +132,15 @@ function submitEditForm() {
 
     const updatePayload = {};
 
-    if (newName !== '') {
+    if (newName !== undefined) {
         updatePayload.name = newName;
     }
 
-    if (newEmail !== '') {
+    if (newEmail !== undefined) {
         updatePayload.email = newEmail;
     }
 
-    if (newPhoneNumber !== '') {
+    if (newPhoneNumber !== undefined) {
         updatePayload.phone_number = newPhoneNumber;
     }
 

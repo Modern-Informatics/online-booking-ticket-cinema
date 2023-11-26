@@ -138,7 +138,7 @@ async function submitEditUserForm() {
         updatePayload.name = user_name_edit;
     }
 
-    if (user_password_edit !== '') {
+    if (user_password_edit !== undefined) {
         updatePayload.password = user_password_edit;
     }
 
@@ -146,9 +146,9 @@ async function submitEditUserForm() {
         updatePayload.role = user_role_edit;
     }
 
-
+    console.log("USSER: " + updatePayload)
     // Make PATCH request to the backend
-    fetch(`'http://[::1]:3333/auth/register`, {
+    fetch(`http://[::1]:3333/users/user/${user_id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ async function submitEditUserForm() {
             throw new Error('Network response was not ok');
         }
         // Close the modal
-        closeModal();
+        closeUserModal();
         // Reload the data after editing
         reloadUserData();
     })

@@ -77,8 +77,8 @@ function renderData(data) {
                     const imageElement = document.createElement('img');
                     imageElement.src = value; // Assuming 'value' is the URL of the image
                     imageElement.alt = 'Movie Image';
-                    // imageElement.style.width = '10px';
-                    imageElement.style.maxHeight = '200px'; // Adjust the width as needed
+                    imageElement.style.width = '150px';
+                    imageElement.style.height  = '200px'; // Adjust the width as needed
                     dataCell.appendChild(imageElement);
                 }
             } else {
@@ -176,18 +176,20 @@ async function submitEditForm() {
     const mainActor_edit = document.getElementById('director_edit').value;
 
     const fileInput = document.getElementById('image_movie_edit');
-    const imagePreview = document.getElementById('imagePreview_edit');
+    // const imagePreview = document.getElementById('imagePreview_edit');
     const token = localStorage.getItem('token');
 
+    // imagePreview.innerHTML = '';
     let imageUrl = '';
     const file = fileInput.files[0];
 
     if (file) {
       // Display a preview of the selected image (optional)
       const reader = new FileReader();
-      reader.onload = function (e) {
-        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-      };
+    //   reader.onload = function (e) {
+    //     imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+    //     imagePreview.style.maxWidth = '200px'
+    //   };
       reader.readAsDataURL(file);
 
       // Use FormData to prepare the file for upload
