@@ -42,7 +42,7 @@
                         <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item active">
+                <li class="sidebar-item ">
                     <a class="sidebar-link" href="/admin/cinema.html">
                         <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Cinema</span>
                     </a>
@@ -57,7 +57,7 @@
                         <i class="align-middle" data-feather="user"></i> <span class="align-middle">User</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item active">
                     <a class="sidebar-link" href="/admin/booking.html">
                         <i class="align-middle" data-feather="layers"></i> <span class="align-middle">Booking</span>
                     </a>
@@ -82,7 +82,7 @@
 
                         <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
                             <img src="/seat_selection/images/avatar-2.jpg" class="avatar img-fluid rounded me-1" alt=""/>
-                            <span class="text-dark">Ad cmn min</span>
+                            <span class="text-dark">Admin</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item" href="#"><i class="align-middle me-1"
@@ -107,11 +107,27 @@
             <div class="container-fluid p-0">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Booking list</h3>
+                        <h3 class="card-title">Booking List</h3>
+                        <nav class="navbar navbar-expand-lg bg-light">
+                            <div class="container-fluid">
+                                <a class="navbar-brand" href="#">
+                                    <button type="button" class="btn btn-success" onclick="showAllBookings()">Show all movies</button>
+                                </a>
+                                <form class="d-flex" role="search" onsubmit="return findByUserId()">
+                                    <input class="form-control me-2 fst-italic" type="search" 
+                                            placeholder="Enter user id..."
+                                           aria-label="Search">
+                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                </form>                                
+                            </div>
+                        </nav>
+
                     </div>
+                    
                     <!-- /.card-header -->
                     <div class="card-body">
-<!-- //////////////////////////////////////////// -->
+                        <div id="dataContainer"></div>
+                    </div> 
                     <!-- /.card-body -->
                 </div>
             </div>
@@ -148,11 +164,9 @@
         </footer>
     </div>
 </div>
-
 <script src="/assets/js/admin.js"></script>
- 
-
 <script src="/assets/js/logout-admin.js"></script>
+<script src="/assets/js/booking-admin.js"></script>
 
 </body>
 
