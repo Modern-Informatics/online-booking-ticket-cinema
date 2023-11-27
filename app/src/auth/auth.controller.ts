@@ -23,6 +23,14 @@ export class AuthController {
       });
     } catch (err) {
       console.log(err);
+
+      if (err.code === 'P2002' && err.meta?.target?.includes('email')) {
+        return response.status(400).json({
+          status: 'Error!',
+          message: 'Email already exists!',
+        });
+      }
+
       return response.status(500).json({
         status: 'Error!',
         message: 'Internal Server Error!',

@@ -16,8 +16,17 @@ async function signUp(email, name, password) {
                 "role": "USER"
             }),
         });
-
-        return response.ok;
+		if (!response.ok) {
+            const result = await response.json();
+			if (result.message) {
+                // Hiển thị thông báo lỗi từ server
+                alert(result.message);
+            } else {
+                // Hiển thị thông báo lỗi mặc định
+                alert('Registration failed. Please try again.');
+            }
+            return response.ok;
+        }
     } catch (error) {
         console.error('Sign Up error:', error);
         return false;
