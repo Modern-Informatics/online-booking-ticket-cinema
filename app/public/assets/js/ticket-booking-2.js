@@ -64,6 +64,10 @@ function closeShowInfoModal() {
     document.getElementById('showInfoModal').style.display = 'none';
 }
 
+function closeNotiModal() {
+    document.getElementById('notiModal').style.display = 'none';
+}
+
 function getStatusClass(status) {
     switch (status) {
         case 'AVAILABLE':
@@ -141,7 +145,7 @@ async function openShowInfoModal(showInfo) {
     
         console.log(seat);
         // Thêm sự kiện click cho mỗi ghế
-        listItem.addEventListener('click', () => handleSeatClick(selectedSeats, listItem, seat.seatId, seat.price));
+        listItem.addEventListener('click', () => handleSeatClick(selectedSeats, listItem, seat.show_seat_id, seat.price));
         localStorage.setItem('showId', seat.showId);
         showSeatList.appendChild(listItem);
     });
@@ -181,12 +185,12 @@ function updatePaymentAmount() {
     totalAmountDisplay.textContent = `${finalTotalAmount} USD`;
 }
 
-function handleSeatClick(selectedSeats, seatElement, seatId, seatPrice) {
+function handleSeatClick(selectedSeats, seatElement, show_seat_id, seatPrice) {
     // Kiểm tra xem ghế đã chọn chưa
-    const seatIndex = selectedSeats.findIndex(seat => seat.seatId === seatId);
+    const seatIndex = selectedSeats.findIndex(seat => seat.show_seat_id === show_seat_id);
     if (seatIndex === -1) {
         // Nếu ghế chưa được chọn, thêm vào mảng
-        selectedSeats.push({ seatId, seatPrice });
+        selectedSeats.push({ show_seat_id, seatPrice });
         seatElement.classList.add('selected');
     } else {
         // Nếu ghế đã được chọn, loại bỏ khỏi mảng
@@ -312,4 +316,205 @@ async function getShowSeatsByShowId(show_id) {
     } catch (error) {
         console.error('Error fetching movie data:', error);
     }
+}
+
+async function createBooking() {
+    const email = localStorage.getItem("email");
+    const user = await getUserByEmail(email);
+    console.log(user);
+    const token = localStorage.getItem('token');
+    const newbooking = {
+        "userId": user.user_id,
+    };
+    try {
+        const response = await fetch('http://[::1]:3333/bookings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(newbooking),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const addedbooking = await response.json();
+        console.log("New Booking: " + addedbooking);
+
+        const selectedSeatsString = localStorage.getItem("selectedSeats");
+        if (selectedSeatsString) {
+            try {
+                // Chuyển đổi chuỗi JSON thành mảng JavaScript
+                const selectedSeatsArray = JSON.parse(selectedSeatsString);
+        
+                // Lặp qua mảng và log giá trị show_seat_id
+                selectedSeatsArray.forEach(async seat => {
+                    await createBookingDeatil(addedbooking.booking_id, seat.show_seat_id);
+                });
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+        } else {
+            console.log('No selected seats found in localStorage');
+        }
+
+        const payment_submit = document.getElementById("payment-submit-button");
+        payment_submit.onclick = async () => {
+            createPayment(addedbooking.booking_id, finalTotalAmount);
+            closepaymentModal();
+            closeShowInfoModal();
+            confirmBooking(addedbooking.booking_id)
+            const noti = await createNotification(addedbooking.userId, `YOUR BOOKING CREATED AT ${formatDateTime(addedbooking.createdAt)}`)
+            openNotiModal(noti);
+        };
+    } catch (error) {
+        console.error('Error adding new booking:', error);
+    }
+
+    
+}
+async function confirmBooking(bookingId){
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/bookings/booking/${bookingId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                "status": "CONFIRMED"
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log("Booking confirmed!");
+    } catch (error) {
+        console.error('Error adding new booking:', error);
+    }
+}
+async function getUserByEmail(email) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/users/user/email/${email}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+    }
+}
+
+async function createBookingDeatil(bookingId, showSeatId) {
+    const newbookingDetail = {
+        "bookingId" : bookingId,
+        "showSeatId" :showSeatId,
+    };
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://[::1]:3333/booking-details', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(newbookingDetail),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const addedbookingDetail = await response.json();
+        console.log("New Booking added!" + addedbookingDetail);
+    } catch (error) {
+        console.error('Error adding new booking:', error);
+    }
+}
+
+async function createPayment(bookingId, amount) {
+    const newpayment = {
+        "bookingId" : bookingId,
+        "amount" :amount,
+    };
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://[::1]:3333/payments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(newpayment),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log("New payment added!");
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error adding new payment:', error);
+    }
+}
+
+async function createNotification(userId, message) {
+    const newNoti = {
+        "userId" : userId,
+        "message" :message,
+    };
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://[::1]:3333/notifications', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(newNoti),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log("New notifications added!");
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error adding new notifications:', error);
+    }
+}
+
+async function openNotiModal(noti) {
+    const modal = document.getElementById('notiModal');
+    const contentContainer = document.getElementById('notiContent');
+
+    contentContainer.innerHTML = '';
+
+    // Hiển thị thông tin show từ API
+    const notiText = document.createElement('p');
+    notiText.innerHTML = `<span><strong>YOUR BOOKING CREATED AT ${formatDateTime(noti.createdAt)}<br>`;    
+    contentContainer.appendChild(notiText);
+    modal.style.display = 'block';
 }

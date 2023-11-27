@@ -39,7 +39,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
-  @Get('users')
+  @Get('users/name')
   async findByName(@Query('name') name: string): Promise<User[]> {
     return this.usersService.users({
       where: {
@@ -48,6 +48,13 @@ export class UsersController {
         },
       },
     });
+  }
+
+  @Get('user/email/:email')
+  async findByEmail(@Param('email') email: string) : Promise<User | null> {
+    return this.usersService.user({
+      email: email,
+    })
   }
 
   @Patch('user/:id')

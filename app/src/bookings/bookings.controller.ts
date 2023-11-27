@@ -65,9 +65,6 @@ export class BookingsController {
     return this.bookingsService.update({
       where: { booking_id: Number(id) },
       data: {
-        user: {
-          connect: { user_id: Number(userId) },
-        },
         status,
       },
     });

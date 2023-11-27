@@ -109,7 +109,7 @@
           </div>
           <h2>Seats: </h2>
           <ul id="showSeatList"></ul>
-          <button id="submitSeatsButton" type="button" class="btn btn-primary" onclick="openpaymentModal()">Submit</button>
+          <button id="submitSeatsButton" type="button" class="btn btn-primary" onclick="createBooking(); openpaymentModal();">Submit</button>
       </div>
   </div>
   <!-- Payment modal -->
@@ -178,9 +178,21 @@
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-primary" onclick="closepaymentModal(); closeShowInfoModal();">Submit</button>
+      <button type="button" class="btn btn-primary" id="payment-submit-button">Submit</button>
     </div>
   </div>
+
+  <!-- noti modal -->
+  <div id="notiModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeNotiModal()">&times;</span>
+        <h2>Notification</h2>
+        <div id="notiContent">
+            <!-- Thêm nội dung thông tin show ở đây -->
+        </div>
+    </div>
+</div>
+
 </div>
 </body>
 <script src="assets/js/theme-change.js"></script>
