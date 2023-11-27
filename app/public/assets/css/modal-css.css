@@ -185,6 +185,11 @@ ul {
     justify-content: center;
 }
 
+.seat.selected {
+    background-color: #bd2638; /* Màu nền khi ghế được chọn */
+    color: #ffffff; /* Màu chữ khi ghế được chọn */
+}
+
 /* CSS cho seat có status là AVAILABLE */
 .available {
     background-color: green;

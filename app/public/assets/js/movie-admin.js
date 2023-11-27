@@ -422,7 +422,7 @@ async function addShow(event) {
     const cinemaSelect = document.getElementById('cinemaSelect');
     const selectedCinemaId = cinemaSelect.value;
 
-    const priceAdded = document.getElementById('screenSelect');
+    const priceAdded = document.getElementById('price');
     const priceAddedValue = priceAdded.value;
 
     const screenSelect = document.getElementById('screenSelect');
