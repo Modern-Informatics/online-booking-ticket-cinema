@@ -2,170 +2,111 @@ const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container_signup_signin');
 
+async function signUp(email, name, password) {
+    try {
+        const response = await fetch('http://[::1]:3333/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "email": email,
+                "name": name,
+                "password": password,
+                "role": "USER"
+            }),
+        });
+
+        return response.ok;
+    } catch (error) {
+        console.error('Sign Up error:', error);
+        return false;
+    }
+}
+
+async function signIn(email, password) {
+    try {
+        const response = await fetch('http://[::1]:3333/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "email": email,
+                "password": password
+            }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem('token', result.result.token);
+            localStorage.setItem('email', email);
+            localStorage.setItem('state', "logged-in");
+            localStorage.setItem('role', parseJwt(result.result.token).role);
+        } else {
+            alert(result.message);
+        }
+		window.location = "http://[::1]:3333/index.html";
+
+    } catch (error) {
+        console.error('Sign In error:', error);
+    }
+}
+
 async function signUpValidateForm() {
-	var name = document.forms["sign-up-form"]["sign-up-name"].value;
-	if (name == "") {
-		//   alert("'Name' can not be empty!!");
-		asAlertMsg({
-			type: "error",
-			title: "Empty Field",
-			message: "'Name' can not be empty!!",
+    const name = document.getElementById("sign_up_name").value;
+    const email = document.getElementById("sign_up_email").value;
+    const password = document.getElementById("sign_up_password").value;
 
-			button: {
-				title: "Close Button",
-				bg: "Cancel Button"
-			}
-		});
-		return false;
-	}
-	email = document.forms["sign-up-form"]["sign-up-email"].value;
-	if (email == "") {
-		//   alert("'Email' can not be empty!!");
-		asAlertMsg({
-			type: "error",
-			title: "Empty Field",
-			message: "'E-mail' can not be empty!!",
+    if (!name || !email || !password) {
+        asAlertMsg({
+            type: "error",
+            title: "Empty Field",
+            message: "Name, Email, and Password are required.",
+            button: {
+                title: "Close Button",
+                bg: "Cancel Button"
+            }
+        });
+        return;
+    }
 
-			button: {
-				title: "Close Button",
-				bg: "Cancel Button"
-			}
-		});
-		return false;
-	}
-	password = document.forms["sign-up-form"]["sign-up-passwd"].value;
-	if (password == "") {
-		//   alert("'Password' can not be empty!!");
-		asAlertMsg({
-			type: "error",
-			title: "Empty Field",
-			message: "'Password' can not be empty!!",
+    const signUpSuccess = await signUp(email, name, password);
 
-			button: {
-				title: "Close Button",
-				bg: "Cancel Button"
-			}
-		});
-		return false;
-	}
-	
-	try {
-		const response = await fetch('http://[::1]:3333/auth/register', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				"email": email,
-				"name": name,
-				"password": password,
-				"role": "USER"
-			}),
-		});
-	} catch (error) {
-		console.error('Fetch error:', error);
-	}
-
-	try {
-		const response = await fetch('http://[::1]:3333/auth/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				"email": email,
-				"password": password
-			}),
-		});
-	
-		const result = await response.json();
-
-		console.log(parseJwt(result.result.token))
-
-		if (response.ok) {
-			localStorage.setItem('token', result.result.token);
-			localStorage.setItem('email', email);
-			localStorage.setItem('state', "logged-in");
-			localStorage.setItem('role', parseJwt(result.result.token).role)
-			window.location = "http://[::1]:3333/";
-		} else {
-			alert(result.message);
-		}
-	} catch (error) {
-		console.error('Fetch error:', error);
-	}
+    if (signUpSuccess) {
+        // Perform sign-in after successful sign-up
+        await signIn(email, password);
+    }
 }
 
 async function signInValidateForm() {
+    const email = document.getElementById("sign_in_email").value;
+    const password = document.getElementById("sign_in_password").value;
 
-	email = document.forms["sign-in-form"]["sign-in-email"].value;
-	if (email == "") {
-		//   alert("'Email' can not be empty!!");
-		asAlertMsg({
-			type: "error",
-			title: "Empty Field",
-			message: "'E-mail' can not be empty!!",
+    if (!email || !password) {
+        asAlertMsg({
+            type: "error",
+            title: "Empty Field",
+            message: "Name, Email, and Password are required.",
+            button: {
+                title: "Close Button",
+                bg: "Cancel Button"
+            }
+        });
+        return;
+    }
 
-			button: {
-				title: "Close Button",
-				bg: "Cancel Button"
-			}
-		});
-		return false;
-	}
-	password = document.forms["sign-in-form"]["sign-in-passwd"].value;
-	if (password == "") {
-		//   alert("'Password' can not be empty!!");
-		asAlertMsg({
-			type: "error",
-			title: "Empty Field",
-			message: "'Password' can not be empty!!",
-
-			button: {
-				title: "Close Button",
-				bg: "Cancel Button"
-			}
-		});
-		return false;
-	}
-
-	try {
-		const response = await fetch('http://[::1]:3333/auth/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				"email": email,
-				"password": password
-			}),
-		});
-	
-		const result = await response.json();
-
-		console.log(parseJwt(result.result.token))
-
-		if (response.ok) {
-			localStorage.setItem('token', result.result.token);
-			localStorage.setItem('email', email);
-			localStorage.setItem('state', "logged-in");
-			localStorage.setItem('role', parseJwt(result.result.token).role)
-			window.location = "http://[::1]:3333/";
-		} else {
-			alert(result.message);
-		}
-	} catch (error) {
-		console.error('Fetch error:', error);
-	}
-	
+    await signIn(email, password); 
 }
 
-signUpButton.addEventListener('click', () => {
-	container.classList.add("right-panel-active");
+signUpButton.addEventListener('click', function() {
+    container.classList.add("right-panel-active");
 });
 
-signInButton.addEventListener('click', () => {
-	container.classList.remove("right-panel-active");
+signInButton.addEventListener('click', function() {
+    container.classList.remove("right-panel-active");
+    console.log("Button clicked!");
 });
 
 function parseJwt (token) {

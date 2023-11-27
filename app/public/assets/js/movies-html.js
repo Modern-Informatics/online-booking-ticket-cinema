@@ -2,7 +2,6 @@
 function createModal(movie) {
     const modal = document.createElement('div');
     const modal_class = "modal_" + movie.movie_id;
-    console.log(modal_class);
     modal.classList.add('modal', modal_class);
 
     const modalContent = `

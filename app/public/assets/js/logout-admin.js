@@ -1,4 +1,4 @@
-var logout_button = document.getElementById('logout-icon')
+var logout_button = document.getElementById('logout-button')
 
 logout_button.addEventListener('click',() => logout());
 

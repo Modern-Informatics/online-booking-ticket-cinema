@@ -24,8 +24,7 @@
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				</div>
 				<div class="Login_SignUp" id="login_s">
-					<!-- style="font-size: 2rem ; display: inline-block; position: relative;" -->
-					<!-- <li class="nav-item"> -->
+
 					<a class="nav-link" href="sign_in.html"><i class="fa fa-user-circle-o"></i></a>
 					<!-- </li> -->
 				</div>
@@ -49,36 +48,21 @@
 
 	<div class="container_signup_signin" id="container_signup_signin">
 		<div class="form-container sign-up-container">
-			<form name="sign-up-form" action="#" onsubmit="return signUpValidateForm()">
+			<form name="sign-up-form" action="#">
 				<h1>Create Account</h1>
-				<!-- <div class="social-container">
-					<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-					<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-					<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-				</div> -->
-				<!-- <span>or use your email for registration</span> -->
-				<input name="sign-up-name" type="text" placeholder="Name" id="sign_up_name"/>
-				<input name="sign-up-email" type="email" placeholder="Email" id="sign_up_email"/>
-				<input name="sign-up-passwd" type="password" placeholder="Password" id="sign_up_password"/>
-				<button>Sign Up</button>
+				<input class="form-control"  type="text" placeholder="Name" id="sign_up_name"/>
+				<input class="form-control"  type="email" placeholder="Email" id="sign_up_email"/>
+				<input class="form-control"  type="password" placeholder="Password" id="sign_up_password"/>
+				<button type="button" onclick="signUpValidateForm()">Sign Up</button>
 			</form>
 		</div>
 
 		<div class="form-container sign-in-container">
-			<form name="sign-in-form" style="color: var(--theme-title);" action="#"
-				onsubmit="return signInValidateForm()">
+			<form name="sign-in-form" action="#">
 				<h1>Sign in</h1>
-				<!-- <div class="social-container">
-					<a href="#" class="social" style="color: var(--theme-title);"><i class="fab fa-facebook-f"></i></a>
-					<a href="#" class="social" style="color: var(--theme-title);"><i
-							class="fab fa-google-plus-g"></i></a>
-					<a href="#" class="social" style="color: var(--theme-title);"><i class="fab fa-linkedin-in"></i></a>
-				</div> -->
-				<!-- <span>or use your account</span> -->
-				<input name="sign-in-email" type="email" placeholder="Email" />
-				<input name="sign-in-passwd" type="password" placeholder="Password" />
-				<a href="#">Forgot your password?</a>
-				<button>Sign In</button>
+				<input class="form-control"  type="email" placeholder="Email" id="sign_in_email" />
+				<input class="form-control"  type="password" placeholder="Password" id="sign_in_password">
+				<button type="button" onclick="signInValidateForm()">Sign In</button>
 			</form>
 		</div>
 		<div class="overlay-container">
@@ -97,13 +81,13 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="assets/js/as-alert-message.min.js"></script>
-	<script src="assets/js/jquery-3.3.1.min.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/as-alert-message.min.js"></script> -->
+	<!-- <script src="assets/js/jquery-3.3.1.min.js"></script> -->
 	<!--/theme-change-->
 	<script src="assets/js/theme-change.js"></script>
 	<!-- disable body scroll which navbar is in active -->
 
-	<script src="assets/js/bootstrap.min.js"></script>
+	<!-- <script src="assets/js/bootstrap.min.js"></script> -->
 	<script type="text/javascript" src="assets/js/sign-in.js"></script>
 
 </body>

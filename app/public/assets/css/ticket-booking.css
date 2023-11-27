@@ -224,3 +224,123 @@ h2 {
 #form .home-page-btn:focus { 
 	background-color: #c70050;
 }
+
+.content-container {
+	margin-top: 70px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+#showList {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#showList li {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+#showList button {
+    background-color: #db3466;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+	border-radius: 5px;
+}
+
+#showInfoModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#showSeatList {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+#showSeatList li {
+    margin-bottom: 10px;
+}
+
+#submitSeatsButton {
+    background-color: #db3466;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#paymentModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.method {
+    display: flex;
+    align-items: center;
+}
+
+.method input {
+    margin-right: 5px;
+}
+
+.icon-container {
+    margin-right: 10px;
+}
+
+#totalAmountDisplay {
+    font-weight: bold;
+}
