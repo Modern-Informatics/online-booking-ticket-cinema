@@ -27,6 +27,7 @@ async function signUp(email, name, password) {
             }
             return response.ok;
         }
+        await signIn(email, password); 
     } catch (error) {
         console.error('Sign Up error:', error);
         return false;
@@ -53,11 +54,10 @@ async function signIn(email, password) {
             localStorage.setItem('email', email);
             localStorage.setItem('state', "logged-in");
             localStorage.setItem('role', parseJwt(result.result.token).role);
+            window.location = "http://[::1]:3333";
         } else {
             alert(result.message);
         }
-		window.location = "http://[::1]:3333/index.html";
-
     } catch (error) {
         console.error('Sign In error:', error);
     }
