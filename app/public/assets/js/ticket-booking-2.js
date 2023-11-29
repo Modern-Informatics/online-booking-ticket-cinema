@@ -362,11 +362,12 @@ async function createBooking() {
 
         const payment_submit = document.getElementById("payment-submit-button");
         payment_submit.onclick = async () => {
-            createPayment(addedbooking.booking_id, finalTotalAmount);
+            const payment_data = await createPayment(addedbooking.booking_id, finalTotalAmount);
             closepaymentModal();
             closeShowInfoModal();
-            confirmBooking(addedbooking.booking_id)
+            confirmBooking(addedbooking.booking_id);
             const noti = await createNotification(addedbooking.userId, `YOUR BOOKING CREATED AT ${formatDateTime(addedbooking.createdAt)}`)
+            confirmPayment(parseInt(payment_data.payment_id), addedbooking.booking_id);
             openNotiModal(noti);
         };
     } catch (error) {
@@ -399,6 +400,32 @@ async function confirmBooking(bookingId){
         console.error('Error adding new booking:', error);
     }
 }
+
+async function confirmPayment(payment_id, booking_id){
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://[::1]:3333/payments/payment/${payment_id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                "bookingId": booking_id,
+                "paymentStatus": "COMPLETED"
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log("Payment confirmed!");
+    } catch (error) {
+        console.error('Error adding new Payment:', error);
+    }
+}
+
 async function getUserByEmail(email) {
     try {
         const token = localStorage.getItem('token');

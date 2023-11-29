@@ -675,6 +675,12 @@ async function openShowInfoModal(showInfo) {
                               <span>End Time:</span> ${showInfo.endAt}`;    
     contentContainer.appendChild(showInfoText);
 
+    // delete button
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete this show';
+    deleteButton.addEventListener('click', () => {deleteShow(showInfo.show_id) ; manageShowModal(showInfo.movieId);});
+    contentContainer.appendChild(deleteButton);
+
     const seatsData = await getShowSeatsByShowId(showInfo.show_id);
     const seatList = document.getElementById('showSeatList');
 
@@ -694,6 +700,34 @@ async function openShowInfoModal(showInfo) {
 
     // Hiển thị modal
     modal.style.display = 'block';
+}
+
+function deleteShow(show_id) {
+    // Confirm deletion with the user
+    const confirmDelete = confirm('Are you sure you want to delete this movie?');
+    const token = localStorage.getItem('token');
+
+    if (confirmDelete) {
+        // Make DELETE request to the backend
+        fetch(`http://[::1]:3333/Shows/show/${show_id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            console.log(`Show with ID ${show_id} deleted successfully.`);
+            closeShowInfoModal();
+            closeShowModal();
+        })
+        .catch(error => {
+            console.error('Error deleting booking:', error);
+        });
+    }
 }
 
 function getStatusClass(status) {
