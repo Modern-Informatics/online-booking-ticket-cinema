@@ -21,7 +21,7 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Post()
   async create(
     @Body() createNotificationDto: CreateNotificationDto,
@@ -62,7 +62,7 @@ export class NotificationsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Patch('notification/:id')
   async update(
     @Param('id') id: string,
@@ -81,7 +81,7 @@ export class NotificationsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Delete('notification/:id')
   async delete(@Param('id') id: string): Promise<Notification> {
     return this.notificationsService.delete({ notification_id: Number(id) });

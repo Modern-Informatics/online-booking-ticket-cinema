@@ -1,0 +1,48 @@
+/* CSS cho nút Delete */
+.delete-user {
+    background-color: #dc3545 !important;  /* Đỏ */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.delete-user:hover {
+    background-color: #c82333 !important; /* Đỏ đậm khi di chuột vào */
+}
+
+/* CSS cho nút Edit */
+.edit-user {
+    background-color: #007bff !important; /* Xanh dương */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.edit-user:hover {
+    background-color: #0056b3 !important; /* Xanh dương đậm khi di chuột vào */
+}
+
+.header-table-admin {
+    background-color: #008d63 !important; /* Đỏ đậm khi di chuột vào */
+    color: white;
+}
+
+.detail-button {
+    background-color: #008d63  !important; /* Xanh dương */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.detail-button:hover {
+    background-color: #01a775  !important; /* Xanh dương đậm khi di chuột vào */
+}

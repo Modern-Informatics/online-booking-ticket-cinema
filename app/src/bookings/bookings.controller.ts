@@ -33,7 +33,7 @@ export class BookingsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
   @Get()
   async findAll(): Promise<Booking[]> {
     return this.bookingsService.findAll();

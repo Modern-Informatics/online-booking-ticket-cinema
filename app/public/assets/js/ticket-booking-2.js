@@ -1,38 +1,69 @@
 document.addEventListener('DOMContentLoaded', async () => {
-   
-    const token = localStorage.getItem('token');
-    const selectedMovie = getSelectedMovie();
-
-    // Fetch screens for the selected cinema
-    const showsResponse = await fetch(`http://[::1]:3333/shows/showsbymovieId/${selectedMovie.movie_id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-    });
-
-    if (!showsResponse.ok) {
-        console.error('Error fetching screens:', showsResponse.status);
-        return;
-    }
-
-    const showData = await showsResponse.json();
-    const showList = document.getElementById('showList');
-
-
-    // Clear previous content
-    showList.innerHTML = '';
-
-    // Populate screen list
-    showData.forEach(show => {
-        const showButton = document.createElement('button');
-        showButton.textContent = `Show at: ${formatDateTime(show.startAt)}`;
-        showButton.onclick = () => getShowInfo(show.show_id);
-        const listItem = document.createElement('li');
-        listItem.appendChild(showButton);
-        showList.appendChild(listItem);
-    });    
+    const cinemaListContainer = document.querySelector('.cinema-list');
+  
+    // Gọi API để lấy danh sách rạp phim
+    fetch('http://[::1]:3333/cinemas')
+      .then(response => response.json())
+      .then(cinemas => {
+        cinemas.forEach(cinema => {
+            const cinemaButton = document.createElement('button');
+            cinemaButton.textContent = cinema.name;
+    
+            cinemaButton.addEventListener('click', async () => {
+                // Gọi API để lấy thông tin chi tiết của rạp phim khi nút được bấm
+                const token = localStorage.getItem('token');
+                const selectedMovie = getSelectedMovie();
+            
+                const screens = await getScreensByCinemaId(cinema.cinema_id);
+                const shows = await getShowBymovieId(selectedMovie.movie_id)
+            
+                const filteredShows = shows.filter(show => screens.some(screen => screen.screen_id === show.screenId));
+            
+                console.log(screens);
+                console.log(shows);
+                console.log(filteredShows);
+            
+                // Fetch screens for the selected cinema
+                const showsResponse = await fetch(`http://[::1]:3333/shows/showsbymovieId/${selectedMovie.movie_id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+            
+                if (!showsResponse.ok) {
+                    console.error('Error fetching screens:', showsResponse.status);
+                    return;
+                }
+            
+                const showData = filteredShows;
+                const showList = document.getElementById('showList');
+            
+            
+            
+                // Hiển thị thông tin show từ API
+                // Clear previous content
+                showList.innerHTML = '';
+            
+                // Populate screen list
+                showData.forEach(async show => {
+                    const screenInfo = await getScreenById(show.screenId);
+                    const cinemaInfor = await getCinemaById(screenInfo.cinemaId)
+            
+                    const showButton = document.createElement('button');
+                    showButton.innerHTML = `<span><strong>Start Time:</strong></span> ${formatDateTime(show.startAt)}<br>
+                                            <span><strong>End Time:</strong></span> ${formatDateTime(show.endAt)}`;
+                    showButton.onclick = () => getShowInfo(show.show_id);
+                    const listItem = document.createElement('li');
+                    listItem.appendChild(showButton);
+                    showList.appendChild(listItem);
+                }); 
+            });
+    
+            cinemaListContainer.appendChild(cinemaButton);
+        });
+      });   
 })
 
 function formatDateTime(dateTimeString) {
@@ -121,8 +152,8 @@ async function openShowInfoModal(showInfo) {
                               <span><strong>Movie:</strong></span> ${movieInfo.title}<br>
                               <span><strong>Cinema:</strong></span> ${cinemaInfor.name}<br>
                               <span><strong>Screen ID:</strong></span> ${showInfo.screenId}<br>
-                              <span><strong>Start Time:</strong></span> ${showInfo.startAt}<br>
-                              <span><strong>End Time:</strong></span> ${showInfo.endAt}`;    
+                              <span><strong>Start Time:</strong></span> ${formatDateTime(showInfo.startAt)}<br>
+                              <span><strong>End Time:</strong></span> ${formatDateTime(showInfo.endAt)}`;    
     contentContainer.appendChild(showInfoText);
 
     const showseatsData = await getShowSeatsByShowId(showInfo.show_id);
@@ -175,13 +206,7 @@ function closepaymentModal() {
 }
 
 function updatePaymentAmount() {
-    // Lấy thẻ span để hiển thị giá trị
     const totalAmountDisplay = document.getElementById('totalAmountDisplay');
-
-    // Lấy giá trị thanh toán cuối cùng từ biến finalTotalAmount
-    // const finalTotalAmount = getFinalTotalAmount(); // Hàm này cần được xác định dựa trên ngữ cảnh của bạn
-
-    // Hiển thị giá trị thanh toán trong thẻ span
     totalAmountDisplay.textContent = `${finalTotalAmount} USD`;
 }
 
@@ -321,7 +346,6 @@ async function getShowSeatsByShowId(show_id) {
 async function createBooking() {
     const email = localStorage.getItem("email");
     const user = await getUserByEmail(email);
-    console.log(user);
     const token = localStorage.getItem('token');
     const newbooking = {
         "userId": user.user_id,
@@ -352,6 +376,7 @@ async function createBooking() {
                 // Lặp qua mảng và log giá trị show_seat_id
                 selectedSeatsArray.forEach(async seat => {
                     await createBookingDeatil(addedbooking.booking_id, seat.show_seat_id);
+                    await updateShowSeat(seat.show_seat_id);
                 });
             } catch (error) {
                 console.error('Error parsing JSON:', error);
@@ -365,16 +390,37 @@ async function createBooking() {
             const payment_data = await createPayment(addedbooking.booking_id, finalTotalAmount);
             closepaymentModal();
             closeShowInfoModal();
+
+            const selectedSeatsArray = JSON.parse(selectedSeatsString);
+            selectedSeatsArray.forEach(async seat => {
+                await comfirmShowSeat(seat.show_seat_id);
+            });
+
             confirmBooking(addedbooking.booking_id);
             const noti = await createNotification(addedbooking.userId, `YOUR BOOKING CREATED AT ${formatDateTime(addedbooking.createdAt)}`)
             confirmPayment(parseInt(payment_data.payment_id), addedbooking.booking_id);
-            openNotiModal(noti);
+            openNotiModal(noti.message);
+        };
+
+        const payment_cancel = document.getElementById("payment-cancel-button");
+        payment_cancel.onclick = async () => {
+            const payment_data = await createPayment(addedbooking.booking_id, finalTotalAmount);
+            closepaymentModal();
+            closeShowInfoModal();
+
+            const selectedSeatsArray = JSON.parse(selectedSeatsString);
+            selectedSeatsArray.forEach(async seat => {
+                await cancelShowSeat(seat.show_seat_id);
+            });
+
+            cancelBooking(addedbooking.booking_id);
+            const noti = await createNotification(addedbooking.userId, `YOUR BOOKING IS CANCELED`)
+            cancalPayment(parseInt(payment_data.payment_id), addedbooking.booking_id);
+            openNotiModal(noti.message);
         };
     } catch (error) {
         console.error('Error adding new booking:', error);
     }
-
-    
 }
 async function confirmBooking(bookingId){
     try {
@@ -401,6 +447,32 @@ async function confirmBooking(bookingId){
     }
 }
 
+async function cancelBooking(bookingId){
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/bookings/booking/${bookingId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                "status": "CANCELLED"
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log("Booking cancel!");
+    } catch (error) {
+        console.error('Error adding new booking:', error);
+    }
+}
+
+
 async function confirmPayment(payment_id, booking_id){
     try {
         const token = localStorage.getItem('token');
@@ -421,6 +493,31 @@ async function confirmPayment(payment_id, booking_id){
         }
 
         console.log("Payment confirmed!");
+    } catch (error) {
+        console.error('Error adding new Payment:', error);
+    }
+}
+
+async function cancalPayment(payment_id, booking_id){
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://[::1]:3333/payments/payment/${payment_id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                "bookingId": booking_id,
+                "paymentStatus": "FAILED"
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log("Payment canceled!");
     } catch (error) {
         console.error('Error adding new Payment:', error);
     }
@@ -541,7 +638,180 @@ async function openNotiModal(noti) {
 
     // Hiển thị thông tin show từ API
     const notiText = document.createElement('p');
-    notiText.innerHTML = `<span><strong>YOUR BOOKING CREATED AT ${formatDateTime(noti.createdAt)}<br>`;    
+    notiText.innerHTML = `<span><strong>${(noti)}<br>`;    
     contentContainer.appendChild(notiText);
     modal.style.display = 'block';
+}
+
+async function updateShowSeat(showseatId){
+    try {
+        const showseat = await getShowSeatsById(showseatId);
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://[::1]:3333/show-seats/show-seat/${showseatId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                "showId": showseat.showId,
+                "status": "RESERVED",
+                "seatId": showseat.seatId
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log("show seat RESERVED");
+    } catch (error) {
+        console.error('Error booking seat', error);
+    }
+}
+
+async function comfirmShowSeat(showseatId){
+    try {
+        const showseat = await getShowSeatsById(showseatId);
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://[::1]:3333/show-seats/show-seat/${showseatId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                "showId": showseat.showId,
+                "status": "BOOKED",
+                "seatId": showseat.seatId
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log("show seat BOOKED");
+    } catch (error) {
+        console.error('Error booking seat', error);
+    }
+}
+
+async function cancelShowSeat(showseatId){
+    try {
+        const showseat = await getShowSeatsById(showseatId);
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://[::1]:3333/show-seats/show-seat/${showseatId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                "showId": showseat.showId,
+                "status": "AVAILABLE",
+                "seatId": showseat.seatId
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log("show seat AVAILABLE again");
+    } catch (error) {
+        console.error('Error booking seat', error);
+    }
+}
+
+async function getShowSeatsById(id) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/show-seats/show-seat/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+    }
+}
+
+async function getScreensByCinemaId(cinema_id) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/screens/screensbycinemaid/${cinema_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching screens data:', error);
+    }
+}
+
+async function getShowBymovieId(movie_id) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/shows/showsbymovieId/${movie_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching show data:', error);
+    }
+}
+
+async function getPaymentBybookingId(booking_id) {
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://[::1]:3333/payments/paymentsbybookingid/${booking_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching payments data:', error);
+    }
 }

@@ -33,6 +33,8 @@ function renderData(data) {
     });
     // Add extra columns for delete and edit actions
     headerRow.innerHTML += '<th>Actions</th>';
+    headerRow.classList.add('header-table-admin');
+
     table.appendChild(headerRow);
 
     // Create data rows
@@ -47,31 +49,32 @@ function renderData(data) {
         // Add delete and edit buttons
         const actionsCell = document.createElement('td');
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
+        deleteButton.textContent = 'Delete this Cinema';
         deleteButton.addEventListener('click', () => deleteRow(cinema.cinema_id));
-        
+        deleteButton.classList.add('delete-cinema'); // Thêm lớp CSS
+
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', () => editRow(cinema.cinema_id));
+        editButton.classList.add('edit-cinema'); // Thêm lớp CSS
 
         const addScreenButton = document.createElement('button');
         addScreenButton.textContent = 'Add screen';
         addScreenButton.addEventListener('click', () => addScreen(cinema.cinema_id));
+        addScreenButton.classList.add('addScreen-cinema'); // Thêm lớp CSS
 
-        actionsCell.appendChild(deleteButton);
-        actionsCell.appendChild(editButton);
-        actionsCell.appendChild(addScreenButton);
-        dataRow.appendChild(actionsCell);
-
-        // Add button for managing screens
-        const screensCell = document.createElement('td');
         const manageScreensButton = document.createElement('button');
         manageScreensButton.textContent = 'Manage Screens';
         manageScreensButton.addEventListener('click', () => openScreenModal(cinema.cinema_id));
+        manageScreensButton.classList.add('manageScreen-cinema'); // Thêm lớp CSS
 
-        screensCell.appendChild(manageScreensButton);
-        dataRow.appendChild(screensCell);
+        actionsCell.appendChild(addScreenButton);
+        actionsCell.appendChild(editButton);
+        actionsCell.appendChild(manageScreensButton);
+        actionsCell.appendChild(deleteButton);
+        dataRow.appendChild(actionsCell);
 
+        // Add button for managing screens
         table.appendChild(dataRow);
     });
 

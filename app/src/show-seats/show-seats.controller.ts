@@ -22,7 +22,7 @@ export class ShowSeatsController {
   constructor(private readonly showSeatsService: ShowSeatsService) {}
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Post()
   async create(@Body() createShowSeatDto: CreateShowSeatDto) {
     const { showId, seatId, price, status } = createShowSeatDto;
@@ -67,7 +67,7 @@ export class ShowSeatsController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Patch('show-seat/:id')
   async update(
     @Param('id') id: string,
@@ -90,7 +90,7 @@ export class ShowSeatsController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Delete('show-seat/:id')
   async delete(@Param('id') id: string): Promise<ShowSeat | null> {
     return this.showSeatsService.delete({ show_seat_id: Number(id) });

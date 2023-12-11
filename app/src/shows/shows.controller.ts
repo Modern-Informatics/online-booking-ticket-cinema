@@ -21,7 +21,7 @@ export class ShowsController {
   constructor(private readonly showsService: ShowsService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Post()
   async create(@Body() createShowDto: CreateShowDto): Promise<Show> {
     const { movieId, screenId, startAt, endAt } = createShowDto;
@@ -68,7 +68,7 @@ export class ShowsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Patch('show/:id')
   async update(@Param('id') id: string, @Body() updateShowDto: UpdateShowDto) {
     return this.showsService.update({
@@ -85,7 +85,7 @@ export class ShowsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Delete('show/:id')
   async delete(@Param('id') id: string): Promise<Show> {
     return this.showsService.delete({ show_id: Number(id) });

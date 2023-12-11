@@ -3,33 +3,33 @@
 
 <head>
     <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
-	<meta name="author" content="AdminKit">
-	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords"
+          content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png"/>
 
-	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
+    <link rel="canonical" href="https://demo-basic.adminkit.io/"/>
 
-	<title>AdminBookingNow</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>AdminBookingNow</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
-	<link href="/assets/css/admin.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/assets/css/modal-css.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/booking-admin.css">
-
+    <link href="/assets/css/admin.css" rel="stylesheet">
+    <link href="/assets/css/user-admin.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 <div class="wrapper">
     <nav id="sidebar" class="sidebar js-sidebar">
         <div class="sidebar-content js-simplebar">
-            <a class="sidebar-brand" href="/admin/index.html">
-                <span class="align-middle">AdminBookingNow</span>
+            <a class="sidebar-brand" href="/user/user-profile.html">
+                <span class="align-middle">User BookingNow</span>
             </a>
             <a class="sidebar-brand" href="/index.html">
                 <span class="align-middle">HOME</span>
@@ -38,32 +38,16 @@
                 <li class="sidebar-header">
                     Pages
                 </li>
-                <li class="sidebar-item ">
-                    <a class="sidebar-link" href="/admin/index.html">
-                        <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Dashboard</span>
-                    </a>
-                </li>
-                <li class="sidebar-item ">
-                    <a class="sidebar-link" href="/admin/cinema.html">
-                        <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Cinema</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="/admin/movie.html">
-                        <i class="align-middle" data-feather="square"></i> <span class="align-middle">Movie</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="/admin/user.html">
+                <li class="sidebar-item active">
+                    <a class="sidebar-link" href="/user/user-profile.html">
                         <i class="align-middle" data-feather="user"></i> <span class="align-middle">User</span>
                     </a>
                 </li>
-                <li class="sidebar-item active">
-                    <a class="sidebar-link" href="/admin/booking.html">
-                        <i class="align-middle" data-feather="layers"></i> <span class="align-middle">Booking</span>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/user/user-booking.html">
+                        <i class="align-middle" data-feather="shopping-bag"></i> <span class="align-middle">Booking</span>
                     </a>
                 </li>
-
             </ul>
         </div>
     </nav>
@@ -82,7 +66,7 @@
                         </a>
 
                         <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                            <img src="/seat_selection/images/avatar-2.jpg" class="avatar img-fluid rounded me-1" alt=""/>
+                            <img src="/seat_selection/images/avatar-2.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall"/>
                             <span class="text-dark">Admin</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
@@ -108,38 +92,26 @@
             <div class="container-fluid p-0">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Booking List</h3>
-                        <nav class="navbar navbar-expand-lg bg-light">
-                            <div class="container-fluid">
-                                <a class="navbar-brand" href="#">
-                                    <button type="button" class="btn btn-success" onclick="showAllBookings()">Show all movies</button>
-                                </a>
-                                <form class="d-flex" role="search" onsubmit="return findByUserId()">
-                                    <input class="form-control me-2 fst-italic" type="search" 
-                                            placeholder="Enter user id..."
-                                           aria-label="Search">
-                                    <button class="btn btn-outline-success" type="submit">Search</button>
-                                </form>                                
-                            </div>
-                        </nav>
-
+                        <h3 class="card-title">User information</h3>
                     </div>
-                    
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div id="dataContainer"></div>
-                    </div> 
+                    </div>  
                     <!-- /.card-body -->
                 </div>
+
             </div>
+
         </main>
+
 
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row text-muted">
                     <div class="col-6 text-start">
                         <p class="mb-0">
-                            <a class="text-muted" href="" target="_blank"><strong>AdminBookingNow</strong></a>
+                            <a class="text-muted" href="" target="_blank"><strong>DemoAdminKit</strong></a>
                             - <a class="text-muted" href="" target="_blank"><strong>Bootstrap Admin
                             Template</strong></a> &copy;
                         </p>
@@ -167,7 +139,7 @@
 </div>
 <script src="/assets/js/admin.js"></script>
 <script src="/assets/js/logout-admin.js"></script>
-<script src="/assets/js/booking-admin.js"></script>
+<script src="/assets/js/user-profile.js"></script>
 
 </body>
 

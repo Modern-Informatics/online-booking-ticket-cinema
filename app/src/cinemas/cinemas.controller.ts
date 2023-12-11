@@ -22,7 +22,7 @@ export class CinemasController {
   constructor(private readonly cinemasService: CinemasService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Post()
   async create(@Body() createCinemaDto: CreateCinemaDto): Promise<Cinema> {
     const { name, city_id, email, phone_number } = createCinemaDto;
@@ -67,7 +67,7 @@ export class CinemasController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Patch('cinema/:id')
   async update(
     @Param('id') id: string,

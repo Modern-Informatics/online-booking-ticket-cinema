@@ -22,7 +22,7 @@ export class CitiesController {
   constructor(private readonly citiesService: CitiesService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.USER)
   @Post()
   async create(@Body() createCityDto: CreateCityDto) {
     return this.citiesService.create(createCityDto);
@@ -50,7 +50,7 @@ export class CitiesController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.USER)
   @Patch('city/:id')
   async update(@Param('id') id: string, @Body() updateCityDto: UpdateCityDto) {
     return this.citiesService.update({
@@ -60,7 +60,7 @@ export class CitiesController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.USER)
   @Delete('city/:id')
   async remove(@Param('id') id: string): Promise<City> {
     return this.citiesService.delete({ city_id: Number(id) });

@@ -21,7 +21,7 @@ export class ScreensController {
   constructor(private readonly screensService: ScreensService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Post()
   async create(@Body() createScreenDto: CreateScreenDto): Promise<Screen> {
     const { cinema_id } = createScreenDto;
@@ -57,7 +57,7 @@ export class ScreensController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Patch('screen/:id')
   async update(
     @Param('id') id: string,
@@ -75,7 +75,7 @@ export class ScreensController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Delete('screen/:id')
   async remove(@Param('id') id: string): Promise<Screen> {
     return this.screensService.delete({ screen_id: Number(id) });

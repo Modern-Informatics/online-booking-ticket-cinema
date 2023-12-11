@@ -24,21 +24,21 @@ export class UsersController {
   ) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.USER)
   @Get()
   async findAll() {
     return this.usersService.findAll();
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.USER)
   @Get('user/:id')
   async findOne(@Param('id') id: string): Promise<User | null> {
     return this.usersService.user({ user_id: Number(id) });
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.USER)
   @Get('users/name')
   async findByName(@Query('name') name: string): Promise<User[]> {
     return this.usersService.users({

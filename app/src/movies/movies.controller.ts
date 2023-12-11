@@ -27,7 +27,7 @@ export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Post()
   async create(@Body() createMovieDto: CreateMovieDto): Promise<Movie> {
     return this.moviesService.create(createMovieDto);
@@ -55,7 +55,7 @@ export class MoviesController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Patch('movie/:id')
   async update(
     @Param('id') id: string,
@@ -68,7 +68,7 @@ export class MoviesController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Delete('movie/:id')
   async remove(@Param('id') id: string) {
     return this.moviesService.delete({ movie_id: Number(id) });

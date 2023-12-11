@@ -41,6 +41,8 @@ function renderData(data) {
     });
     // Add extra columns for delete and edit actions
     headerRow.innerHTML += '<th>Actions</th>';
+    headerRow.classList.add('header-table-admin');
+
     table.appendChild(headerRow);
 
     // Create data rows
@@ -67,7 +69,8 @@ function renderData(data) {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', () => deleteRow(booking.booking_id));
-        
+        deleteButton.classList.add('delete-booking'); // Thêm lớp CSS
+
         actionsCell.appendChild(deleteButton);
         dataRow.appendChild(actionsCell);
         table.appendChild(dataRow);

@@ -52,10 +52,10 @@ export class AuthController {
         result: result,
       });
     } catch (err) {
-      return response.status(500).json({
+      return response.status(err.response.statusCode).json({
         status: 'Error!',
-        message: 'Internal Server Error!',
-      });
+        message: err.response.message,
+      });    
     }
   }
 }

@@ -1,0 +1,19 @@
+/* CSS cho nút Delete */
+.delete-booking {
+    background-color: #dc3545 !important; /* Đỏ */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.delete-booking:hover {
+    background-color: #c82333 !important; /* Đỏ đậm khi di chuột vào */
+}
+
+.header-table-admin {
+    background-color: #008d63 !important; /* Đỏ đậm khi di chuột vào */
+    color: white;
+}

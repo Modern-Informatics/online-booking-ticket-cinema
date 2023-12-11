@@ -229,7 +229,6 @@ h2 {
 	margin-top: 70px;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -241,11 +240,11 @@ h2 {
     padding: 0;
     display: flex;
     flex-wrap: wrap;
+	margin: 10px;
 }
 
 #showList li {
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin: 10px;
 }
 
 #showList button {
@@ -343,4 +342,25 @@ h2 {
 
 #totalAmountDisplay {
     font-weight: bold;
+}
+
+.cinema-list {
+	width: 20%;
+	float: left;
+	padding: 20px;
+	box-sizing: border-box;
+	border-right: 1px solid #ccc;
+	height: 100vh;
+	overflow-y: auto;
+}
+
+.cinema-list button{
+	background-color: #db3466;
+	width: 100%;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+	border-radius: 5px;
+	margin: 10px;
 }

@@ -43,6 +43,8 @@ function renderData(data) {
     });
     // Add extra columns for delete and edit actions
     headerRow.innerHTML += '<th>Actions</th>';
+    headerRow.classList.add('header-table-admin');
+
     table.appendChild(headerRow);
 
     // Create data rows
@@ -64,20 +66,24 @@ function renderData(data) {
 
         // Add delete and edit buttons
         const actionsCell = document.createElement('td');
+        // Add delete button
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', () => deleteRow(user.user_id));
-        
+        deleteButton.classList.add('delete-user'); // Thêm lớp CSS
+
+        // Add edit button
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', () => editRow(user.user_id));
+        editButton.classList.add('edit-user'); // Thêm lớp CSS
 
-        actionsCell.appendChild(deleteButton);
         actionsCell.appendChild(editButton);
+        actionsCell.appendChild(deleteButton);
         dataRow.appendChild(actionsCell);
 
         table.appendChild(dataRow);
-    });
+        });
 
     // Append the table to the container
     dataContainer.appendChild(table);

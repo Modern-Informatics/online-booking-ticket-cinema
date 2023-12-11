@@ -1,0 +1,60 @@
+.delete-cinema {
+    margin: 5px;
+    background-color: #dc3545 !important; /* Đỏ */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.delete-cinema:hover {
+    background-color: #c82333 !important; /* Đỏ đậm khi di chuột vào */
+}
+
+.edit-cinema {
+    margin: 5px;
+    background-color: #ffc107 !important; /* Đỏ */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.edit-cinema:hover {
+    background-color: #ff8b07 !important; /* Đỏ */
+}
+
+.addScreen-cinema {
+    margin: 5px;
+    background-color: #1cbb8c !important; /* Đỏ */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.addScreen-cinema:hover {
+    background-color: #046b4c !important; /* Đỏ đậm khi di chuột vào */
+}
+
+.manageScreen-cinema {
+    margin: 5px;
+    background-color: #007bff !important; /* Đỏ */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.manageScreen-cinema:hover {
+    background-color: #004fa3 !important; /* Đỏ đậm khi di chuột vào */
+}
+
+.header-table-admin {
+    background-color: #008d63 !important; /* Đỏ đậm khi di chuột vào */
+    color: white;
+}

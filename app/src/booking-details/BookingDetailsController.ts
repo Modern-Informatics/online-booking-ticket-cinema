@@ -37,14 +37,14 @@ export class BookingDetailsController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Get()
   async findAll(): Promise<BookingDetail[]> {
     return this.bookingDetailsService.findAll();
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Get('booking-detailsbybookingid/:bookingId')
   async findManybyBookingId(
     @Param('bookingId') bookingId: string,
@@ -57,7 +57,7 @@ export class BookingDetailsController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.CINEMA)
+  @Roles(Role.ADMIN, Role.USER)
   @Get('booking-detailsbyshowseatid/:showSeatId')
   async findManyByShowSeatId(
     @Param('showSeatId') showSeatId: string,

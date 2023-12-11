@@ -202,5 +202,32 @@ ul {
     background-color: gray;
     color: white;
     font-weight: bold;
+    pointer-events: none;
 }
 
+#showList {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+#showList {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#showList li {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+#showList button {
+    background-color: #1cbb8c;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+	border-radius: 5px;
+}

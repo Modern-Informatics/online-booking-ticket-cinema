@@ -1,0 +1,49 @@
+/* CSS cho các nút trong bảng */
+.table button {
+    padding: 8px 12px;
+    margin: 4px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+/* CSS cho nút Delete */
+.table button.delete {
+    background-color: #dc3545;
+    color: #fff;
+    width: 100%;
+}
+
+/* CSS cho nút Edit */
+.table button.edit {
+    background-color: #ffc107;
+    color: #212529;
+    width: 100%;
+}
+
+/* CSS cho nút Add Show */
+.table button.add-show {
+    background-color: #28a745;
+    color: #fff;
+    width: 100%;
+}
+
+/* CSS cho nút Manage Show */
+.table button.manage-show {
+    background-color: #007bff;
+    color: #fff;
+    width: 100%;
+}
+
+.header-table-admin {
+    background-color: #008d63 !important; /* Đỏ đậm khi di chuột vào */
+    color: white;
+    width: 100%;
+}
+
+/* Hover effect */
+.table button:hover {
+    filter: brightness(90%);
+}
+

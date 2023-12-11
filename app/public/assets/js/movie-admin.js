@@ -62,6 +62,8 @@ function renderData(data) {
     });
     // Add extra columns for delete and edit actions
     headerRow.innerHTML += '<th>Actions</th>';
+    headerRow.classList.add('header-table-admin');
+
     table.appendChild(headerRow);
 
     // Create data rows
@@ -93,29 +95,32 @@ function renderData(data) {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', () => deleteRow(movie.movie_id));
-        
+        deleteButton.classList.add('delete'); // Thêm lớp CSS
+    
+        // Add edit button
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', () => editRow(movie.movie_id));
-
+        editButton.classList.add('edit'); // Thêm lớp CSS
+    
+        // Add add show button
         const addShowButton = document.createElement('button');
         addShowButton.textContent = 'Add show';
         addShowButton.addEventListener('click', () => addShowModal(movie.movie_id));
+        addShowButton.classList.add('add-show'); // Thêm lớp CSS
+        
+        // Add manage show button
+        const manageShowButton = document.createElement('button');
+        manageShowButton.textContent = 'Manage show';
+        manageShowButton.addEventListener('click', () => manageShowModal(movie.movie_id));
+        manageShowButton.classList.add('manage-show'); // Thêm lớp CSS
 
-        actionsCell.appendChild(deleteButton);
-        actionsCell.appendChild(editButton);
         actionsCell.appendChild(addShowButton);
+        actionsCell.appendChild(editButton);
+        actionsCell.appendChild(manageShowButton);
+        actionsCell.appendChild(deleteButton);
+
         dataRow.appendChild(actionsCell);
-
-        // Add button for managing show
-        const showCell = document.createElement('td');
-        const manageshowButton = document.createElement('button');
-        manageshowButton.textContent = 'Manage show';
-        manageshowButton.addEventListener('click', () => manageShowModal(movie.movie_id));
-
-        showCell.appendChild(manageshowButton);
-        dataRow.appendChild(showCell);
-
         table.appendChild(dataRow);
     });
 
@@ -288,7 +293,7 @@ async function addNewMovie() {
     const genre_new = document.getElementById('genre_new').value;
     const description_new = document.getElementById('description_new').value;
     const director_new = document.getElementById('director_new').value;
-    const mainActor_new = document.getElementById('director_new').value;
+    const mainActor_new = document.getElementById('mainActor_new').value;
     const fileInput = document.getElementById('image_movie');
     const imagePreview = document.getElementById('imagePreview');
     const token = localStorage.getItem('token');
