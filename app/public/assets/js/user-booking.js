@@ -126,7 +126,6 @@ async function checkDetail(bookingId) {
     const booking_details = await getBookingDetailsByBookingId(bookingId);
     var show_seat;
     const payment = await getPaymentBybookingId(bookingId);
-    console.log("PAYMENT: " + (JSON.stringify(payment)));
 
     if (booking_details && booking_details.length > 0 && payment.length !== 0) {
         const seatPromises = booking_details.map(async bd => {
@@ -235,7 +234,7 @@ async function checkDetail(bookingId) {
     
         // Hiển thị thông tin show từ API
         const showInfoText = document.createElement('p');
-        showInfoText.innerHTML =    `<span><strong> Booking is fail!`;  
+        showInfoText.innerHTML = `<span><strong> Booking is fail!`;  
         contentContainer.appendChild(showInfoText);
     
         // Hiển thị modal

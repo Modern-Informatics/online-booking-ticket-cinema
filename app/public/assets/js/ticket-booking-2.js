@@ -372,7 +372,7 @@ async function createBooking() {
         console.log("New Booking: " + addedbooking);
 
         const selectedSeatsString = localStorage.getItem("selectedSeats");
-        if (selectedSeatsString) {
+        if (selectedSeatsString.length > 0) {
             try {
                 // Chuyển đổi chuỗi JSON thành mảng JavaScript
                 const selectedSeatsArray = JSON.parse(selectedSeatsString);
@@ -386,7 +386,10 @@ async function createBooking() {
                 console.error('Error parsing JSON:', error);
             }
         } else {
+            alert("Please choose your seats!")
             console.log('No selected seats found in localStorage');
+            cancelBooking(addedbooking.booking_id);
+            location.reload();
         }
 
         const payment_submit = document.getElementById("payment-submit-button");
@@ -402,6 +405,7 @@ async function createBooking() {
 
             confirmBooking(addedbooking.booking_id);
             const noti = await createNotification(addedbooking.userId, `YOUR BOOKING CREATED AT ${formatDateTime(addedbooking.createdAt)}`)
+            localStorage.setItem('selectedSeats', []);
             confirmPayment(parseInt(payment_data.payment_id), addedbooking.booking_id);
             openNotiModal(noti.message);
         };
@@ -419,6 +423,8 @@ async function createBooking() {
 
             cancelBooking(addedbooking.booking_id);
             const noti = await createNotification(addedbooking.userId, `YOUR BOOKING IS CANCELED`)
+            localStorage.setItem('selectedSeats', []);
+
             cancalPayment(parseInt(payment_data.payment_id), addedbooking.booking_id);
             openNotiModal(noti.message);
         };
