@@ -45,20 +45,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Hiển thị thông tin show từ API
                 // Clear previous content
                 showList.innerHTML = '';
-            
-                // Populate screen list
-                showData.forEach(async show => {
-                    const screenInfo = await getScreenById(show.screenId);
-                    const cinemaInfor = await getCinemaById(screenInfo.cinemaId)
-            
-                    const showButton = document.createElement('button');
-                    showButton.innerHTML = `<span><strong>Start Time:</strong></span> ${formatDateTime(show.startAt)}<br>
-                                            <span><strong>End Time:</strong></span> ${formatDateTime(show.endAt)}`;
-                    showButton.onclick = () => getShowInfo(show.show_id);
+                if (showData.length > 0) {
+                    showData.forEach(async show => {               
+                        const showButton = document.createElement('button');
+                        showButton.innerHTML = `<span><strong>Start Time:</strong></span> ${formatDateTime(show.startAt)}<br>
+                                                <span><strong>End Time:</strong></span> ${formatDateTime(show.endAt)}`;
+                        showButton.onclick = () => getShowInfo(show.show_id);
+                        const listItem = document.createElement('li');
+                        listItem.appendChild(showButton);
+                        showList.appendChild(listItem);
+                    });
+                }
+                else {
+                    const showEmpty = document.createElement('h3');
+                    showEmpty.innerHTML = `<span><strong>THERE IS NO SHOW AVAILABLE`;
                     const listItem = document.createElement('li');
-                    listItem.appendChild(showButton);
+                    listItem.appendChild(showEmpty);
                     showList.appendChild(listItem);
-                }); 
+                }
             });
     
             cinemaListContainer.appendChild(cinemaButton);

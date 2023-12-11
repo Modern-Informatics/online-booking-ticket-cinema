@@ -683,7 +683,7 @@ async function openShowInfoModal(showInfo) {
     // delete button
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete this show';
-    deleteButton.addEventListener('click', () => {deleteShow(showInfo.show_id) ; manageShowModal(showInfo.movieId);});
+    deleteButton.addEventListener('click', () => {deleteShow(showInfo.show_id); closeManageShowModal(showInfo.movieId);});
     contentContainer.appendChild(deleteButton);
 
     const seatsData = await getShowSeatsByShowId(showInfo.show_id);
