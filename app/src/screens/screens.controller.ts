@@ -32,13 +32,13 @@ export class ScreensController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<Screen[]> {
     return this.screensService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('screensbycinemaid/:cinemaId')
   async findManyByCinemaId(
     @Param('cinemaId') cinemaId: string,
@@ -50,7 +50,7 @@ export class ScreensController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('screen/:id')
   async findOne(@Param('id') id: string): Promise<Screen | null> {
     return this.screensService.screen({ screen_id: Number(id) });

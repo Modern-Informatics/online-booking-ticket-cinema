@@ -234,7 +234,7 @@ async function findByuserName() {
         const token = localStorage.getItem('token');
         const userName = searchInput.value;
 
-        const response = await fetch(`http://[::1]:3333/users/users?name=${userName}`, {
+        const response = await fetch(`http://[::1]:3333/users/users/name?name=${userName}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

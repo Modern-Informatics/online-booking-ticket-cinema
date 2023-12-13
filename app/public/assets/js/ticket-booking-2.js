@@ -14,13 +14,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const token = localStorage.getItem('token');
                 const selectedMovie = getSelectedMovie();
             
+                console.log(cinema.cinema_id);
                 const screens = await getScreensByCinemaId(cinema.cinema_id);
                 const shows = await getShowBymovieId(selectedMovie.movie_id)
-            
-                const filteredShows = shows.filter(show => screens.some(screen => screen.screen_id === show.screenId));
-            
+
                 console.log(screens);
                 console.log(shows);
+
+                const filteredShows = shows.filter(show => screens.some(screen => screen.screen_id === show.screenId));
+            
                 console.log(filteredShows);
             
                 // Fetch screens for the selected cinema
@@ -337,7 +339,7 @@ async function getShowSeatsByShowId(show_id) {
         });
         
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
         }
 
         const data = await response.json();
@@ -349,6 +351,12 @@ async function getShowSeatsByShowId(show_id) {
 
 async function createBooking() {
     const email = localStorage.getItem("email");
+    if (email == '') {
+        alert('You need to login to book ticket')
+        window.location = "http://[::1]:3333/";
+        return;
+    }
+
     const user = await getUserByEmail(email);
     const token = localStorage.getItem('token');
     const newbooking = {
@@ -760,7 +768,6 @@ async function getShowSeatsById(id) {
 async function getScreensByCinemaId(cinema_id) {
     try {
         const token = localStorage.getItem('token');
-
         const response = await fetch(`http://[::1]:3333/screens/screensbycinemaid/${cinema_id}`, {
             method: 'GET',
             headers: {
@@ -770,7 +777,7 @@ async function getScreensByCinemaId(cinema_id) {
         });
         
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
         }
 
         const data = await response.json();
@@ -779,6 +786,7 @@ async function getScreensByCinemaId(cinema_id) {
         console.error('Error fetching screens data:', error);
     }
 }
+
 
 async function getShowBymovieId(movie_id) {
     try {
